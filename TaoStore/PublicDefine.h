@@ -126,8 +126,7 @@
 #define separaterColor RGB(200, 199, 204)
 #define tabTxtColor RGB(107, 107, 107)
 #define collectionBgdColor RGB(237, 237, 237)
-#define topSearchBgdColor RGB(242, 125, 39)
-#define TitleCollectionColor RGB(241, 83, 82)
+#define topSearchBgdColor RGB(221, 38, 38)
 #define SettingViewColor RGB(239, 239, 244)
 #define MyGrayColor RGB(245, 245, 245)
 #pragma mark -
