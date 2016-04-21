@@ -620,7 +620,7 @@ UIImage * bundleImageImageName(NSString  *imageName)
         default:
             break;
     }
-   
+    NSLog(@"shortCutClick:%ld",sendTag);
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField

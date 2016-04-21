@@ -78,6 +78,15 @@
 		897C56951CC079E4000F93F5 /* SortViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 897C56511CC079E4000F93F5 /* SortViewController.m */; };
 		897C56991CC0868E000F93F5 /* sortDealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 897C56981CC0868E000F93F5 /* sortDealViewController.m */; };
 		89A95BEE1CC4A32100FDFCB3 /* ADCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A95BED1CC4A32100FDFCB3 /* ADCollectionViewCell.m */; };
+		89C755F21CC716DC0017EBC8 /* ShortCutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C755F11CC716DC0017EBC8 /* ShortCutViewController.m */; };
+		89C755F61CC717680017EBC8 /* SYQRCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C755F51CC717680017EBC8 /* SYQRCodeViewController.m */; };
+		89C755FC1CC7198B0017EBC8 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C755F91CC7198B0017EBC8 /* LoginViewController.m */; };
+		89C755FD1CC7198B0017EBC8 /* myInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C755FB1CC7198B0017EBC8 /* myInfoViewController.m */; };
+		89C756031CC719E20017EBC8 /* stdCallBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C756001CC719E20017EBC8 /* stdCallBtn.m */; };
+		89C756041CC719E20017EBC8 /* stdPubFunc.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C756021CC719E20017EBC8 /* stdPubFunc.m */; };
+		89C7560B1CC769410017EBC8 /* DPAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C756071CC769410017EBC8 /* DPAPI.m */; };
+		89C7560C1CC769410017EBC8 /* DPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C7560A1CC769410017EBC8 /* DPRequest.m */; };
+		89C756101CC769E70017EBC8 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C7560F1CC769E70017EBC8 /* Reachability.m */; };
 		89DB8FE31CC0746600C61494 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DB8FE21CC0746600C61494 /* main.m */; };
 		89DB8FE61CC0746600C61494 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DB8FE51CC0746600C61494 /* AppDelegate.m */; };
 		89DB8FE91CC0746600C61494 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DB8FE81CC0746600C61494 /* ViewController.m */; };
@@ -201,6 +210,25 @@
 		897C56981CC0868E000F93F5 /* sortDealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = sortDealViewController.m; sourceTree = "<group>"; };
 		89A95BEC1CC4A32100FDFCB3 /* ADCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADCollectionViewCell.h; sourceTree = "<group>"; };
 		89A95BED1CC4A32100FDFCB3 /* ADCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADCollectionViewCell.m; sourceTree = "<group>"; };
+		89C755F01CC716DC0017EBC8 /* ShortCutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShortCutViewController.h; sourceTree = "<group>"; };
+		89C755F11CC716DC0017EBC8 /* ShortCutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShortCutViewController.m; sourceTree = "<group>"; };
+		89C755F41CC717680017EBC8 /* SYQRCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYQRCodeViewController.h; sourceTree = "<group>"; };
+		89C755F51CC717680017EBC8 /* SYQRCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYQRCodeViewController.m; sourceTree = "<group>"; };
+		89C755F81CC7198B0017EBC8 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		89C755F91CC7198B0017EBC8 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		89C755FA1CC7198B0017EBC8 /* myInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myInfoViewController.h; sourceTree = "<group>"; };
+		89C755FB1CC7198B0017EBC8 /* myInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = myInfoViewController.m; sourceTree = "<group>"; };
+		89C755FF1CC719E20017EBC8 /* stdCallBtn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdCallBtn.h; sourceTree = "<group>"; };
+		89C756001CC719E20017EBC8 /* stdCallBtn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = stdCallBtn.m; sourceTree = "<group>"; };
+		89C756011CC719E20017EBC8 /* stdPubFunc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdPubFunc.h; sourceTree = "<group>"; };
+		89C756021CC719E20017EBC8 /* stdPubFunc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = stdPubFunc.m; sourceTree = "<group>"; };
+		89C756061CC769410017EBC8 /* DPAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPAPI.h; sourceTree = "<group>"; };
+		89C756071CC769410017EBC8 /* DPAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPAPI.m; sourceTree = "<group>"; };
+		89C756081CC769410017EBC8 /* DPConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPConstants.h; sourceTree = "<group>"; };
+		89C756091CC769410017EBC8 /* DPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPRequest.h; sourceTree = "<group>"; };
+		89C7560A1CC769410017EBC8 /* DPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPRequest.m; sourceTree = "<group>"; };
+		89C7560E1CC769E70017EBC8 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		89C7560F1CC769E70017EBC8 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		89DB8FDE1CC0746600C61494 /* TaoStore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaoStore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89DB8FE21CC0746600C61494 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		89DB8FE41CC0746600C61494 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -426,12 +454,66 @@
 		897C56961CC0868E000F93F5 /* otherController */ = {
 			isa = PBXGroup;
 			children = (
+				89C755F01CC716DC0017EBC8 /* ShortCutViewController.h */,
+				89C755F11CC716DC0017EBC8 /* ShortCutViewController.m */,
 				89A95BEC1CC4A32100FDFCB3 /* ADCollectionViewCell.h */,
 				89A95BED1CC4A32100FDFCB3 /* ADCollectionViewCell.m */,
 				897C56971CC0868E000F93F5 /* sortDealViewController.h */,
 				897C56981CC0868E000F93F5 /* sortDealViewController.m */,
 			);
 			path = otherController;
+			sourceTree = "<group>";
+		};
+		89C755F31CC717680017EBC8 /* ScanPacket */ = {
+			isa = PBXGroup;
+			children = (
+				89C755F41CC717680017EBC8 /* SYQRCodeViewController.h */,
+				89C755F51CC717680017EBC8 /* SYQRCodeViewController.m */,
+			);
+			path = ScanPacket;
+			sourceTree = "<group>";
+		};
+		89C755F71CC7198B0017EBC8 /* LoginGroup */ = {
+			isa = PBXGroup;
+			children = (
+				89C755F81CC7198B0017EBC8 /* LoginViewController.h */,
+				89C755F91CC7198B0017EBC8 /* LoginViewController.m */,
+				89C755FA1CC7198B0017EBC8 /* myInfoViewController.h */,
+				89C755FB1CC7198B0017EBC8 /* myInfoViewController.m */,
+			);
+			path = LoginGroup;
+			sourceTree = "<group>";
+		};
+		89C755FE1CC719E20017EBC8 /* StdPacket */ = {
+			isa = PBXGroup;
+			children = (
+				89C755FF1CC719E20017EBC8 /* stdCallBtn.h */,
+				89C756001CC719E20017EBC8 /* stdCallBtn.m */,
+				89C756011CC719E20017EBC8 /* stdPubFunc.h */,
+				89C756021CC719E20017EBC8 /* stdPubFunc.m */,
+			);
+			path = StdPacket;
+			sourceTree = "<group>";
+		};
+		89C756051CC769410017EBC8 /* dianpingapi */ = {
+			isa = PBXGroup;
+			children = (
+				89C756061CC769410017EBC8 /* DPAPI.h */,
+				89C756071CC769410017EBC8 /* DPAPI.m */,
+				89C756081CC769410017EBC8 /* DPConstants.h */,
+				89C756091CC769410017EBC8 /* DPRequest.h */,
+				89C7560A1CC769410017EBC8 /* DPRequest.m */,
+			);
+			path = dianpingapi;
+			sourceTree = "<group>";
+		};
+		89C7560D1CC769E70017EBC8 /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				89C7560E1CC769E70017EBC8 /* Reachability.h */,
+				89C7560F1CC769E70017EBC8 /* Reachability.m */,
+			);
+			path = Reachability;
 			sourceTree = "<group>";
 		};
 		89DB8FD51CC0746600C61494 = {
@@ -459,6 +541,11 @@
 		89DB8FE01CC0746600C61494 /* TaoStore */ = {
 			isa = PBXGroup;
 			children = (
+				89C7560D1CC769E70017EBC8 /* Reachability */,
+				89C756051CC769410017EBC8 /* dianpingapi */,
+				89C755FE1CC719E20017EBC8 /* StdPacket */,
+				89C755F71CC7198B0017EBC8 /* LoginGroup */,
+				89C755F31CC717680017EBC8 /* ScanPacket */,
 				897C56961CC0868E000F93F5 /* otherController */,
 				897C55ED1CC079E4000F93F5 /* AOImageView */,
 				897C55F31CC079E4000F93F5 /* CellView */,
@@ -752,10 +839,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89C755FC1CC7198B0017EBC8 /* LoginViewController.m in Sources */,
 				89DB8FE91CC0746600C61494 /* ViewController.m in Sources */,
 				897C56941CC079E4000F93F5 /* ShopCarViewController.m in Sources */,
 				89DB8FE61CC0746600C61494 /* AppDelegate.m in Sources */,
 				897C56861CC079E4000F93F5 /* JZMTBtnView.m in Sources */,
+				89C756041CC719E20017EBC8 /* stdPubFunc.m in Sources */,
 				897C56951CC079E4000F93F5 /* SortViewController.m in Sources */,
 				897C56921CC079E4000F93F5 /* HomeViewController.m in Sources */,
 				897C568C1CC079E4000F93F5 /* MultilevelCollectionViewCell.m in Sources */,
@@ -763,6 +852,8 @@
 				897C56991CC0868E000F93F5 /* sortDealViewController.m in Sources */,
 				897C56931CC079E4000F93F5 /* NewsViewController.m in Sources */,
 				897C56901CC079E4000F93F5 /* MultilevelMenu.m in Sources */,
+				89C7560C1CC769410017EBC8 /* DPRequest.m in Sources */,
+				89C755F21CC716DC0017EBC8 /* ShortCutViewController.m in Sources */,
 				897C56881CC079E4000F93F5 /* dealModel.m in Sources */,
 				897C56891CC079E4000F93F5 /* sortModel.m in Sources */,
 				897C56521CC079E4000F93F5 /* AOImageView.m in Sources */,
@@ -771,10 +862,15 @@
 				897C56571CC079E4000F93F5 /* NewsTableViewCell.m in Sources */,
 				897C568A1CC079E4000F93F5 /* CollectionHeader.m in Sources */,
 				897C56541CC079E4000F93F5 /* HomeCollectionViewCell.m in Sources */,
+				89C755F61CC717680017EBC8 /* SYQRCodeViewController.m in Sources */,
+				89C756101CC769E70017EBC8 /* Reachability.m in Sources */,
 				897C568E1CC079E4000F93F5 /* MultilevelTableViewCell.m in Sources */,
+				89C7560B1CC769410017EBC8 /* DPAPI.m in Sources */,
 				897C56531CC079E4000F93F5 /* AOScrollerView.m in Sources */,
 				897C56871CC079E4000F93F5 /* StdRootController.m in Sources */,
 				89A95BEE1CC4A32100FDFCB3 /* ADCollectionViewCell.m in Sources */,
+				89C755FD1CC7198B0017EBC8 /* myInfoViewController.m in Sources */,
+				89C756031CC719E20017EBC8 /* stdCallBtn.m in Sources */,
 				897C56581CC079E4000F93F5 /* ShopViewCell.m in Sources */,
 				897577AC1CC5C2950098333C /* AreaCell.m in Sources */,
 				89DB8FE31CC0746600C61494 /* main.m in Sources */,
