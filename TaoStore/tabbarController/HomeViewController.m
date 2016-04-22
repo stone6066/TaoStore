@@ -71,9 +71,6 @@ static NSString * const cellIndentifier = @"menucell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     _dataSource = [NSMutableArray array];//还要再搞一次，否则_dataSource装不进去数据
-//    _dataSource1 = [NSMutableArray array];
-//    _dataSource2 = [NSMutableArray array];
-//    _dataSource3 = [NSMutableArray array];
     HomeAreaImgArr=[[NSArray alloc]initWithObjects:@"http://img-ta-01.b0.upaiyun.com/14501731824942597.jpg",@"http://img-ta-01.b0.upaiyun.com/14501731913836533.jpg",@"http://img-ta-01.b0.upaiyun.com/14501732051780326.jpg",@"http://img-ta-01.b0.upaiyun.com/14501732166057415.jpg",@"http://img-ta-01.b0.upaiyun.com/14501732275660418.jpg",@"http://img-ta-01.b0.upaiyun.com/14501732363305851.jpg", nil];
     [self loadSeachView];
     
