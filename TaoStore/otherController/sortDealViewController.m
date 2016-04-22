@@ -11,8 +11,8 @@
 #import "MJRefresh.h"
 #import "dealModel.h"
 #import "ShopViewCell.h"
-
-
+#import "SVProgressHUD.h"
+#import "goodsSectionHome.h"
 @interface sortDealViewController ()
 {
     NSMutableArray *_dataSource;
@@ -113,8 +113,64 @@ static NSString * const mySortIdentifier = @"MainCell";
     _sortAllwaysFlash=@"0";
     
     _dataSource = [NSMutableArray array];//还要再搞一次，否则_dataSource装不进去数据
+    [self loadCollectionViewData];
 }
 
+
+-(void)loadCollectionViewData{
+    [SVProgressHUD showWithStatus:k_Status_Load];
+    
+    //NSString *urlStr = [NSString stringWithFormat:@"%@%@",NetUrl,@"UsrStore.asmx/GetPartsList"];
+    
+    NSDictionary *paramDict = @{
+                                @"ut":@"indexVilliageGoods",
+                                @"pageNo":[NSString stringWithFormat:@"%d",1],
+                                @"pageSize":[NSString stringWithFormat:@"%d",20]
+                                };
+    //    NSString *PN=[NSString stringWithFormat:@"%@%d",@"&pageNo=",pageNo];POST
+    //     NSString *urlstr=[NSString stringWithFormat:@"%@%@",NetUrl,@"&ut=indexVilliageGoods"];
+    //
+    NSString *urlstr=[NSString stringWithFormat:@"%@%@",BaseUrl,@"paistore_m_site/interface/getmainpagegoods.htm"];
+    //NSLog(@"urlstr:%@",urlstr);
+    [ApplicationDelegate.httpManager POST:urlstr
+                               parameters:paramDict
+                                 progress:^(NSProgress * _Nonnull uploadProgress) {}
+                                  success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                                      //http请求状态
+                                      if (task.state == NSURLSessionTaskStateCompleted) {
+                                          NSError* error;
+                                          NSDictionary* jsonDic = [NSJSONSerialization
+                                                                   JSONObjectWithData:responseObject
+                                                                   options:kNilOptions
+                                                                   error:&error];
+                                          //NSLog(@"数据：%@",jsonDic);
+                                          NSString *suc=[jsonDic objectForKey:@"result"];
+                                          
+                                          //
+                                          if ([suc isEqualToString:@"true"]) {
+                                              //成功
+                                              goodsSectionHome *gHome=[[goodsSectionHome alloc]init];
+                                              _dataSource=[gHome assignGoodsWithDict:jsonDic];
+                                              //[_dataSource addObjectsFromArray:arrtmp];
+                                              [self.collectionView reloadData];
+                                              
+                                              [SVProgressHUD showSuccessWithStatus:k_Success_Load];
+                                          } else {
+                                              //失败
+                                              [SVProgressHUD showErrorWithStatus:k_Error_WebViewError];
+                                              
+                                          }
+                                          
+                                      } else {
+                                          [SVProgressHUD showErrorWithStatus:k_Error_Network];
+                                      }
+                                      
+                                  } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                                      //请求异常
+                                      [SVProgressHUD showErrorWithStatus:k_Error_Network];
+                                  }];
+    
+}
 
 #pragma mark -- UICollectionViewDataSource
 //定义展示的UICollectionViewCell的个数

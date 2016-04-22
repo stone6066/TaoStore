@@ -86,7 +86,8 @@
 		NSString *status = 0;
         if([result isKindOfClass:[NSDictionary class]])
         {
-            status = [result objectForKey:@"msg"];
+            status = [result objectForKey:@"result"];
+            //status = [result objectForKey:@"msg"];
             //datastr= [result objectForKey:@"data"];
             //status = [result objectForKey:@"auditStatus"];
             //NSLog(@"####:%@",status);
@@ -95,7 +96,7 @@
 //        {
 //            [_delegate request:self didFinishLoadingWithResult:(result == nil ? data : result)];
 //        }
-		if ([status isEqualToString:@"ok"]) {
+		if ([status isEqualToString:@"true"]) {
 			if ([_delegate respondsToSelector:@selector(request:didFinishLoadingWithResult:)])
 			{
 				[_delegate request:self didFinishLoadingWithResult:(result == nil ? data : result)];
@@ -374,7 +375,7 @@
 //    
 //    [request setHTTPMethod:@"POST"];
     // 1.设置请求路径
-    NSURL *URL=[NSURL URLWithString:NetUrl];//不需要传递参数
+    NSURL *URL=[NSURL URLWithString:BaseUrl];//不需要传递参数
     
     //    2.创建请求对象
     NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:URL];//默认为get请求
@@ -591,7 +592,7 @@ NSString *const DataRefreshLastTime = @"dataRefreshLastTime";
 }
 
 -(NSInteger)getCurrNetstate{
-    Reachability *r = [Reachability reachabilityWithHostName:MainUrl];
+    Reachability *r = [Reachability reachabilityWithHostName:BaseUrl];
     switch ([r currentReachabilityStatus]) {
     case NotReachable:
         // 没有网络连接

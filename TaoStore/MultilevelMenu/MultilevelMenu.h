@@ -84,6 +84,10 @@
 @property(copy,nonatomic) NSString * ID;
 
 /**
+ *  菜单跳转链接
+ */
+@property(copy,nonatomic)NSString *menuDealUrl;
+/**
  *  下一级菜单
  */
 @property(strong,nonatomic) NSArray * nextArray;

@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-@class dealModel;
+@class goodsHome;
 
 @interface ShopViewCell : UICollectionViewCell
 
-- (void)showUIWithModel:(dealModel *)model;
--(dealModel*)praseModelWithCell:(ShopViewCell *)cell;
+- (void)showUIWithModel:(goodsHome *)model;
+-(goodsHome*)praseModelWithCell:(ShopViewCell *)cell;
 @end

@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		89054BA01CC89FB300AAD4F4 /* goodsHome.m in Sources */ = {isa = PBXBuildFile; fileRef = 89054B9F1CC89FB300AAD4F4 /* goodsHome.m */; };
+		89054BA61CC8BC0700AAD4F4 /* goodsSectionHome.m in Sources */ = {isa = PBXBuildFile; fileRef = 89054BA51CC8BC0700AAD4F4 /* goodsSectionHome.m */; };
+		895D24D11CC9EE3D0010EEC5 /* NullSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = 895D24D01CC9EE3D0010EEC5 /* NullSafe.m */; };
+		8961B65D1CC9C29700857231 /* goodsObjModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8961B65C1CC9C29700857231 /* goodsObjModel.m */; };
 		897577AC1CC5C2950098333C /* AreaCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 897577AA1CC5C2950098333C /* AreaCell.m */; };
 		897577CD1CC61D5A0098333C /* assortment_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 897577AF1CC61D5A0098333C /* assortment_selected.png */; };
 		897577CE1CC61D5A0098333C /* assortment_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 897577B01CC61D5A0098333C /* assortment_selected@2x.png */; };
@@ -116,6 +120,13 @@
 
 /* Begin PBXFileReference section */
 		3C83EC2185170691AD1FDD29 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		89054B9E1CC89FB300AAD4F4 /* goodsHome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = goodsHome.h; sourceTree = "<group>"; };
+		89054B9F1CC89FB300AAD4F4 /* goodsHome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = goodsHome.m; sourceTree = "<group>"; };
+		89054BA41CC8BC0700AAD4F4 /* goodsSectionHome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = goodsSectionHome.h; sourceTree = "<group>"; };
+		89054BA51CC8BC0700AAD4F4 /* goodsSectionHome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = goodsSectionHome.m; sourceTree = "<group>"; };
+		895D24D01CC9EE3D0010EEC5 /* NullSafe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NullSafe.m; sourceTree = "<group>"; };
+		8961B65B1CC9C29700857231 /* goodsObjModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = goodsObjModel.h; sourceTree = "<group>"; };
+		8961B65C1CC9C29700857231 /* goodsObjModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = goodsObjModel.m; sourceTree = "<group>"; };
 		897577A91CC5C2950098333C /* AreaCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreaCell.h; sourceTree = "<group>"; };
 		897577AA1CC5C2950098333C /* AreaCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreaCell.m; sourceTree = "<group>"; };
 		897577AF1CC61D5A0098333C /* assortment_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = assortment_selected.png; sourceTree = "<group>"; };
@@ -274,6 +285,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		895D24CF1CC9EE3D0010EEC5 /* NullSafe */ = {
+			isa = PBXGroup;
+			children = (
+				895D24D01CC9EE3D0010EEC5 /* NullSafe.m */,
+			);
+			path = NullSafe;
+			sourceTree = "<group>";
+		};
 		897577AE1CC61D1B0098333C /* tabbarIcon */ = {
 			isa = PBXGroup;
 			children = (
@@ -404,6 +423,12 @@
 				897C56351CC079E4000F93F5 /* dealModel.m */,
 				897C56361CC079E4000F93F5 /* sortModel.h */,
 				897C56371CC079E4000F93F5 /* sortModel.m */,
+				89054B9E1CC89FB300AAD4F4 /* goodsHome.h */,
+				89054B9F1CC89FB300AAD4F4 /* goodsHome.m */,
+				89054BA41CC8BC0700AAD4F4 /* goodsSectionHome.h */,
+				89054BA51CC8BC0700AAD4F4 /* goodsSectionHome.m */,
+				8961B65B1CC9C29700857231 /* goodsObjModel.h */,
+				8961B65C1CC9C29700857231 /* goodsObjModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -541,6 +566,7 @@
 		89DB8FE01CC0746600C61494 /* TaoStore */ = {
 			isa = PBXGroup;
 			children = (
+				895D24CF1CC9EE3D0010EEC5 /* NullSafe */,
 				89C7560D1CC769E70017EBC8 /* Reachability */,
 				89C756051CC769410017EBC8 /* dianpingapi */,
 				89C755FE1CC719E20017EBC8 /* StdPacket */,
@@ -846,11 +872,15 @@
 				897C56861CC079E4000F93F5 /* JZMTBtnView.m in Sources */,
 				89C756041CC719E20017EBC8 /* stdPubFunc.m in Sources */,
 				897C56951CC079E4000F93F5 /* SortViewController.m in Sources */,
+				89054BA01CC89FB300AAD4F4 /* goodsHome.m in Sources */,
+				895D24D11CC9EE3D0010EEC5 /* NullSafe.m in Sources */,
 				897C56921CC079E4000F93F5 /* HomeViewController.m in Sources */,
 				897C568C1CC079E4000F93F5 /* MultilevelCollectionViewCell.m in Sources */,
+				89054BA61CC8BC0700AAD4F4 /* goodsSectionHome.m in Sources */,
 				89DB8FEF1CC0746600C61494 /* TaoStore.xcdatamodeld in Sources */,
 				897C56991CC0868E000F93F5 /* sortDealViewController.m in Sources */,
 				897C56931CC079E4000F93F5 /* NewsViewController.m in Sources */,
+				8961B65D1CC9C29700857231 /* goodsObjModel.m in Sources */,
 				897C56901CC079E4000F93F5 /* MultilevelMenu.m in Sources */,
 				89C7560C1CC769410017EBC8 /* DPRequest.m in Sources */,
 				89C755F21CC716DC0017EBC8 /* ShortCutViewController.m in Sources */,
@@ -995,6 +1025,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = TaoStore/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.tianan-apple.TaoStore";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1007,6 +1038,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = TaoStore/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.tianan-apple.TaoStore";
 				PRODUCT_NAME = "$(TARGET_NAME)";

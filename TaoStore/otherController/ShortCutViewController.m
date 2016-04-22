@@ -115,7 +115,7 @@
 {
     NSString *location=webView.request.URL.absoluteString;
     NSLog(@"webViewDidFinishLoad:%@",location);
-    NSString *logUrl= [NSString stringWithFormat:@"%@%@",MainUrl,@"mobile/login.html"];
+    NSString *logUrl= [NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/login.html"];
     if([location rangeOfString:logUrl].location !=NSNotFound)//要从商城登录
     {
         [self loadLoginView];
@@ -124,7 +124,7 @@
     else{
    
     
-        if ([location isEqualToString:[NSString stringWithFormat:@"%@%@",MainUrl,@"mobile/"]]) {
+        if ([location isEqualToString:[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/"]]) {
             backflag=1;
         }
         else
@@ -267,7 +267,7 @@
     shortCutView.navigationItem.hidesBackButton=YES;
     
     
-    [shortCutView setWeburl:[NSString stringWithFormat:@"%@%@",MainUrl,@"nst/jumpmobilelogin.htm"]];
+    [shortCutView setWeburl:[NSString stringWithFormat:@"%@%@",BaseUrl,@"nst/jumpmobilelogin.htm"]];
     [shortCutView setTopTitle:@"登录"];
     shortCutView.LoginFlagBlock = ^(LoginViewController *LoginView,NSInteger loginFlag){
         [LoginView dismissViewControllerAnimated:NO completion:nil];

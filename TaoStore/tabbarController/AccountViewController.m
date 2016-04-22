@@ -93,7 +93,7 @@
     
     UIImageView *backImg=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, fDeviceWidth, 120)];
     
-    [backImg sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",MainUrl,@"mobile/images/images_25.jpg" ]]];
+    [backImg sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/images/images_25.jpg" ]]];
 //    [backImg sd_setImageWithStr:[NSString stringWithFormat:@"%@%@",MainUrl,@"mobile/images/images_25.jpg" ]];
     [imgView addSubview:backImg];
     
@@ -102,7 +102,7 @@
     UIImageView *iconImg=[[UIImageView alloc]initWithFrame:CGRectMake(10, 60, 70, 70)];
     //[iconImg sd_setImageWithStr:[NSString stringWithFormat:@"%@%@",MainUrl,@"mobile/images/avatar.jpg"]];
     
-    [iconImg sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",MainUrl,@"mobile/images/avatar.jpg"]]];
+    [iconImg sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/images/avatar.jpg"]]];
     
     iconImg.layer.masksToBounds = YES;
     iconImg.layer.cornerRadius = CGRectGetHeight(iconImg.bounds)/2;
@@ -177,23 +177,23 @@
     switch (indexPath.row) {
         case 0:
             
-            [self popMobileInfoView:[NSString stringWithFormat:@"%@%@",MainUrl,@"mobile/customer/myorder.html"] viewTitle:@"我的订单"];
+            [self popMobileInfoView:[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/customer/myorder.html"] viewTitle:@"我的订单"];
             break;
         case 1:
             
-            [self popMobileInfoView:[NSString stringWithFormat:@"%@%@",MainUrl,@"mobile/customer/myorder-0-1.html"] viewTitle:@"待付款订单"];
+            [self popMobileInfoView:[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/customer/myorder-0-1.html"] viewTitle:@"待付款订单"];
             break;
         case 2:
             
-            [self popMobileInfoView:[NSString stringWithFormat:@"%@%@",MainUrl,@"mobile/customer/myorder-3-1.html"] viewTitle:@"已发货物流查询"];
+            [self popMobileInfoView:[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/customer/myorder-3-1.html"] viewTitle:@"已发货物流查询"];
             break;
         case 3:
             
-            [self popMobileInfoView:[NSString stringWithFormat:@"%@%@",MainUrl,@"mobile/customer/address.html"] viewTitle:@"收货地址"];
+            [self popMobileInfoView:[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/customer/address.html"] viewTitle:@"收货地址"];
             break;
         case 4:
             
-            [self popMobileInfoView:[NSString stringWithFormat:@"%@%@",MainUrl,@"mobile/customer/personinfo.html"] viewTitle:@"个人资料"];
+            [self popMobileInfoView:[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/customer/personinfo.html"] viewTitle:@"个人资料"];
             break;
         case 5://我的发布
             //[self popMyPublicView];

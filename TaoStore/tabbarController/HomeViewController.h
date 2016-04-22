@@ -18,8 +18,9 @@
     UIView *_mySeparateView;
     NSMutableArray * _SeachMutArr;
     NSMutableArray * _ResultMutArr;
+   
 }
-
+@property (strong,nonatomic)NSMutableArray *dataSource;
 @property (nonatomic,strong)UICollectionView *collectionView;
 //@property (nonatomic,strong)UICollectionView *btncollectionView;
 @end

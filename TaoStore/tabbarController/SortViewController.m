@@ -13,6 +13,8 @@
 #import "sortModel.h"
 #import "MultilevelMenu.h"
 #import "sortDealViewController.h"
+#import "SYQRCodeViewController.h"
+#import "ShortCutViewController.h"
 
 @interface SortViewController ()<UITextFieldDelegate>
 {
@@ -50,7 +52,7 @@ UITextField * _seachTextF;
         //sortDealView.navigationItem.title=info.meunName;
         sortDealView.hidesBottomBarWhenPushed=YES;
         sortDealView.navigationItem.hidesBackButton=YES;
-        [sortDealView setSortListId:@"4148"];
+        [sortDealView setSortListId:info.ID];
         [sortDealView setTopTitle:info.meunName];
         [self.navigationController pushViewController:sortDealView animated:YES];
         //NSLog(@"点击的 菜单%@",info.meunName);
@@ -88,11 +90,6 @@ UIImage * sbundleImageImageName(NSString  *imageName)
 {
     UIView *topSearch=[[UIView alloc]initWithFrame:CGRectMake(0, 0, fDeviceWidth, TopSeachHigh)];
     topSearch.backgroundColor=topSearchBgdColor;
-//    UIImageView * seachLogo = [[UIImageView alloc] initWithFrame:CGRectMake(5, 25, 30, 30)];
-//    seachLogo.userInteractionEnabled = YES;
-//    seachLogo.image =[UIImage imageNamed:@"topLogo"];
-//    seachLogo.userInteractionEnabled = YES;
-//    [topSearch addSubview:seachLogo];
     
     UIImageView * seachBgV = [[UIImageView alloc] initWithFrame:CGRectMake(45, 25, fDeviceWidth-95, 30)];
     seachBgV.userInteractionEnabled = YES;
@@ -148,24 +145,24 @@ UIImage * sbundleImageImageName(NSString  *imageName)
 
 - (void)doScan:(UIButton *)button
 {
-//    SYQRCodeViewController *qrcodevc = [[SYQRCodeViewController alloc] init];
-//    qrcodevc.SYQRCodeSuncessBlock = ^(SYQRCodeViewController *aqrvc,NSString *qrString){
-//        [aqrvc dismissViewControllerAnimated:NO completion:nil];
-//        goodsViewController *goodsView=[[goodsViewController alloc]init];
-//        goodsView.hidesBottomBarWhenPushed=YES;
-//        goodsView.navigationItem.hidesBackButton=YES;
-//        
-//        [goodsView setGoodsUrl:qrString];
-//        [self.navigationController pushViewController:goodsView animated:YES];
-//        
-//    };
-//    qrcodevc.SYQRCodeFailBlock = ^(SYQRCodeViewController *aqrvc){
-//        [aqrvc dismissViewControllerAnimated:NO completion:nil];
-//    };
-//    qrcodevc.SYQRCodeCancleBlock = ^(SYQRCodeViewController *aqrvc){
-//        [aqrvc dismissViewControllerAnimated:NO completion:nil];
-//    };
-//    [self presentViewController:qrcodevc animated:YES completion:nil];
+    SYQRCodeViewController *qrcodevc = [[SYQRCodeViewController alloc] init];
+    qrcodevc.SYQRCodeSuncessBlock = ^(SYQRCodeViewController *aqrvc,NSString *qrString){
+        [aqrvc dismissViewControllerAnimated:NO completion:nil];
+        ShortCutViewController *goodsView=[[ShortCutViewController alloc]init];
+        goodsView.hidesBottomBarWhenPushed=YES;
+        goodsView.navigationItem.hidesBackButton=YES;
+        [goodsView setWeburl:qrString];
+       
+        [self.navigationController pushViewController:goodsView animated:YES];
+        
+    };
+    qrcodevc.SYQRCodeFailBlock = ^(SYQRCodeViewController *aqrvc){
+        [aqrvc dismissViewControllerAnimated:NO completion:nil];
+    };
+    qrcodevc.SYQRCodeCancleBlock = ^(SYQRCodeViewController *aqrvc){
+        [aqrvc dismissViewControllerAnimated:NO completion:nil];
+    };
+    [self presentViewController:qrcodevc animated:YES completion:nil];
 }
 
 -(void)sortShowTabbar{
@@ -214,9 +211,9 @@ UIImage * sbundleImageImageName(NSString  *imageName)
                                 @"pageSize":[NSString stringWithFormat:@"%d",20]
                                 };
     
-    NSString *urlstr=[NSString stringWithFormat:@"%@%@",NetUrl,@"&ut=typeandbrand"];
-    
-    [ApplicationDelegate.httpManager GET:urlstr
+    NSString *urlstr=[NSString stringWithFormat:@"%@%@",BaseUrl,@"paistore_m_site/interface/getgoodscate.htm"];
+    NSLog(@"urlstr:%@",urlstr);
+    [ApplicationDelegate.httpManager POST:urlstr
                               parameters:paramDict
                                 progress:^(NSProgress * _Nonnull uploadProgress) {}
                                  success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -228,10 +225,10 @@ UIImage * sbundleImageImageName(NSString  *imageName)
                                                                   options:kNilOptions
                                                                   error:&error];
                                          //NSLog(@"数据：%@",jsonDic);
-                                         NSString *suc=[jsonDic objectForKey:@"msg"];
+                                         NSString *suc=[jsonDic objectForKey:@"result"];
                                          
                                          //
-                                         if ([suc isEqualToString:@"ok"]) {
+                                         if ([suc isEqualToString:@"true"]) {
                                              //成功
                                              [SVProgressHUD showSuccessWithStatus:k_Success_Load];
                                              sortModel *SM=[[sortModel alloc]init];

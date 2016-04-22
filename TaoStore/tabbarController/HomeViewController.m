@@ -14,10 +14,14 @@
 #import "SVProgressHUD.h"
 #import "dealModel.h"
 #import "HomeHeaderCellView.h"
+#import "SYQRCodeViewController.h"
+#import "ShortCutViewController.h"
+#import "goodsSectionHome.h"
+#import "goodsHome.h"
+#import "DPAPI.h"
+#import "goodsObjModel.h"
 
-
-
-@interface HomeViewController ()
+@interface HomeViewController ()<DPRequestDelegate>
 {
     NSMutableArray *_dataSource;
     NSString *_selectedCityName;
@@ -29,9 +33,9 @@
     NSMutableArray *_menuArray;
     UIButton *btn;
     NSString *_homeAllwaysFlash;
-    NSMutableArray *_dataSource1;
-    NSMutableArray *_dataSource2;
-    NSMutableArray *_dataSource3;
+//    NSMutableArray *_dataSource1;
+//    NSMutableArray *_dataSource2;
+//    NSMutableArray *_dataSource3;
     NSArray *HomeAreaImgArr;
 }
 @property(nonatomic,strong)UIButton *topBtn;
@@ -67,9 +71,9 @@ static NSString * const cellIndentifier = @"menucell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     _dataSource = [NSMutableArray array];//还要再搞一次，否则_dataSource装不进去数据
-    _dataSource1 = [NSMutableArray array];
-    _dataSource2 = [NSMutableArray array];
-    _dataSource3 = [NSMutableArray array];
+//    _dataSource1 = [NSMutableArray array];
+//    _dataSource2 = [NSMutableArray array];
+//    _dataSource3 = [NSMutableArray array];
     HomeAreaImgArr=[[NSArray alloc]initWithObjects:@"http://img-ta-01.b0.upaiyun.com/14501731824942597.jpg",@"http://img-ta-01.b0.upaiyun.com/14501731913836533.jpg",@"http://img-ta-01.b0.upaiyun.com/14501732051780326.jpg",@"http://img-ta-01.b0.upaiyun.com/14501732166057415.jpg",@"http://img-ta-01.b0.upaiyun.com/14501732275660418.jpg",@"http://img-ta-01.b0.upaiyun.com/14501732363305851.jpg", nil];
     [self loadSeachView];
     
@@ -171,15 +175,14 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
     self.collectionView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         // 进入刷新状态后会自动调用这个block
         _pageindex+=1;
-        [self loadCollectionViewData:_pageindex];
+        [self loadMoreCollectionViewData:_pageindex];
         // 结束刷新
         [weakSelf.collectionView.mj_footer endRefreshing];
     }];
     
    
 }
-
--(void)loadCollectionViewData:(NSInteger)pageNo{
+-(void)loadMoreCollectionViewData:(NSInteger)pageNo{
     [SVProgressHUD showWithStatus:k_Status_Load];
     
     //NSString *urlStr = [NSString stringWithFormat:@"%@%@",NetUrl,@"UsrStore.asmx/GetPartsList"];
@@ -189,10 +192,12 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
                                 @"pageNo":[NSString stringWithFormat:@"%d",1],
                                 @"pageSize":[NSString stringWithFormat:@"%d",20]
                                 };
-    NSString *PN=[NSString stringWithFormat:@"%@%ld",@"&pageNo=",pageNo];
-    NSString *urlstr=[NSString stringWithFormat:@"%@%@%@",NetUrl,@"&ut=indexVilliageGoods",PN];
-   
-    [ApplicationDelegate.httpManager GET:urlstr
+    //    NSString *PN=[NSString stringWithFormat:@"%@%d",@"&pageNo=",pageNo];POST
+    //     NSString *urlstr=[NSString stringWithFormat:@"%@%@",NetUrl,@"&ut=indexVilliageGoods"];
+    //
+    NSString *urlstr=[NSString stringWithFormat:@"%@%@%@%ld",BaseUrl,@"paistore_m_site/interface/getgoodsnew.htm?pageSize=20",@"&pageNo=",pageNo];
+    //NSLog(@"urlstr:%@",urlstr);
+    [ApplicationDelegate.httpManager POST:urlstr
                                parameters:paramDict
                                  progress:^(NSProgress * _Nonnull uploadProgress) {}
                                   success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -204,22 +209,73 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
                                                                    options:kNilOptions
                                                                    error:&error];
                                           //NSLog(@"数据：%@",jsonDic);
-                                          NSString *suc=[jsonDic objectForKey:@"msg"];
+                                          NSString *suc=[jsonDic objectForKey:@"result"];
                                           
                                           //
-                                         if ([suc isEqualToString:@"ok"]) {
+                                          if ([suc isEqualToString:@"true"]) {
                                               //成功
-                                              [SVProgressHUD showSuccessWithStatus:k_Success_Load];
-                                              dealModel *dm=[[dealModel alloc]init];
-                                              NSArray *tmpArr= [dm asignModelWithDict:jsonDic];
-                                              if (_pageindex==1) {
-                                                  [_dataSource removeAllObjects];
-                                              }
-                                              [_dataSource addObjectsFromArray:tmpArr];
-                                              [self makeDataSource];
+                                              goodsSectionHome *gHome=[[goodsSectionHome alloc]init];
+                                              NSArray*tmpArr=[gHome assignGoodsWithDict:jsonDic];
+                                              goodsObjModel *GOB=_dataSource[_dataSource.count-1];
+                                              [GOB.subcategories addObjectsFromArray:tmpArr];
+                                              [_dataSource replaceObjectAtIndex:_dataSource.count-1 withObject:GOB];
                                               [self.collectionView reloadData];
                                               
+                                              [SVProgressHUD showSuccessWithStatus:k_Success_Load];
+                                          } else {
+                                              //失败
+                                              [SVProgressHUD showErrorWithStatus:k_Error_WebViewError];
                                               
+                                          }
+                                          
+                                      } else {
+                                          [SVProgressHUD showErrorWithStatus:k_Error_Network];
+                                      }
+                                      
+                                  } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                                      //请求异常
+                                      [SVProgressHUD showErrorWithStatus:k_Error_Network];
+                                  }];
+
+}
+-(void)loadCollectionViewData:(NSInteger)pageNo{
+    [SVProgressHUD showWithStatus:k_Status_Load];
+    
+    //NSString *urlStr = [NSString stringWithFormat:@"%@%@",NetUrl,@"UsrStore.asmx/GetPartsList"];
+    
+    NSDictionary *paramDict = @{
+                                @"ut":@"indexVilliageGoods",
+                                @"pageNo":[NSString stringWithFormat:@"%d",1],
+                                @"pageSize":[NSString stringWithFormat:@"%d",20]
+                                };
+//    NSString *PN=[NSString stringWithFormat:@"%@%d",@"&pageNo=",pageNo];POST
+//     NSString *urlstr=[NSString stringWithFormat:@"%@%@",NetUrl,@"&ut=indexVilliageGoods"];
+//   
+    NSString *urlstr=[NSString stringWithFormat:@"%@%@",BaseUrl,@"paistore_m_site/interface/getmainpagegoods.htm"];
+    //NSLog(@"urlstr:%@",urlstr);
+    [ApplicationDelegate.httpManager POST:urlstr
+                               parameters:paramDict
+                                 progress:^(NSProgress * _Nonnull uploadProgress) {}
+                                  success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                                      //http请求状态
+                                      if (task.state == NSURLSessionTaskStateCompleted) {
+                                          NSError* error;
+                                          NSDictionary* jsonDic = [NSJSONSerialization
+                                                                   JSONObjectWithData:responseObject
+                                                                   options:kNilOptions
+                                                                   error:&error];
+                                          //NSLog(@"数据：%@",jsonDic);
+                                          NSString *suc=[jsonDic objectForKey:@"result"];
+                                          
+                                          //
+                                         if ([suc isEqualToString:@"true"]) {
+                                              //成功
+                                             goodsSectionHome *gHome=[[goodsSectionHome alloc]init];
+                                             _dataSource=[gHome assignWithDict:jsonDic];
+                                             //[_dataSource addObjectsFromArray:arrtmp];
+                                              [self.collectionView reloadData];
+                                              
+                                              [SVProgressHUD showSuccessWithStatus:k_Success_Load];
                                           } else {
                                               //失败
                                               [SVProgressHUD showErrorWithStatus:k_Error_WebViewError];
@@ -239,21 +295,13 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
 
 -(void)makeDataSource{
     NSLog(@"count:%ld",_dataSource.count);
-    if(_dataSource.count>12)
-    {
-        [_dataSource1 removeAllObjects];
-        [_dataSource2 removeAllObjects];
-        [_dataSource3 removeAllObjects];
-        for (int i=0; i<6; i++) {
-            [_dataSource1 addObject:_dataSource[i]];
-        }
-        for (int i=6; i<12; i++) {
-            [_dataSource2 addObject:_dataSource[i]];
-        }
-        for (int i=12; i<_dataSource.count; i++) {
-            [_dataSource3 addObject:_dataSource[i]];
-        }
-    }
+//    if(_dataSource.count>12)
+//    {
+//        [_dataSource1 removeAllObjects];
+//        [_dataSource2 removeAllObjects];
+//        [_dataSource3 removeAllObjects];
+//        _dataSource1=_dataSource[0];
+//    }
 }
 
 
@@ -261,24 +309,18 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
 //定义展示的UICollectionViewCell的个数
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    if (3==section) {
-        return _dataSource1.count;
-    }
-    if (4==section) {
-        return _dataSource2.count;
-    }
-    if (5==section) {
-        return _dataSource3.count;
+    if (section>2) {
+        goodsObjModel *GOB=[[goodsObjModel alloc]init];
+        GOB=_dataSource[section-3];
+        return GOB.subcategories.count;
     }
     else
         return 1;
-    
-
 }
 //定义展示的Section的个数
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return 6;
+    return _dataSource.count+3;
 }
 
 //调整header的高度
@@ -332,27 +374,18 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
         [cell addSubview:Acell];
         return cell;
     }
-    else  if (indexPath.section==3)
-    {
+    else{
         ShopViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-        dealModel *md=_dataSource1[indexPath.item];
+        //goodsObjModel *GOB=[[goodsObjModel alloc]init];
+        goodsObjModel * GOB=_dataSource[indexPath.section-3];
+        
+       
+        goodsHome *md=GOB.subcategories[indexPath.item];
         [cell showUIWithModel:md];
         return cell;
+    
     }
-    else  if (indexPath.section==4)
-    {
-        ShopViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-        dealModel *md=_dataSource2[indexPath.item];
-        [cell showUIWithModel:md];
-        return cell;
-    }
-    else
-    {
-        ShopViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-        dealModel *md=_dataSource3[indexPath.item];
-        [cell showUIWithModel:md];
-        return cell;
-    }
+    
     //[cell sizeToFit];
 }
 
@@ -367,21 +400,8 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
         
         HomeHeaderCellView *headerView =  [collectionView dequeueReusableSupplementaryViewOfKind :
                                            UICollectionElementKindSectionHeader   withReuseIdentifier:@"homeHeader"   forIndexPath:indexPath];
-        if (indexPath.section==3)
-        {
-            headerView.mainTitle.text=@"新品推荐";
-            headerView.dealTitle.text=@"当季食材 先享为快";
-        }
-        else if (indexPath.section==4)
-        {
-            headerView.mainTitle.text=@"健康蔬果";
-            headerView.dealTitle.text=@"产地直供 每天到家";
-        }
-        else if (indexPath.section==5)
-        {
-            headerView.mainTitle.text=@"热门推荐";
-            headerView.dealTitle.text=@"爆款美食 任君挑选";
-        }
+        goodsObjModel * GOB=_dataSource[indexPath.section-3];
+        headerView.mainTitle.text=GOB.name;
         return headerView;
     }
     
@@ -557,24 +577,35 @@ UIImage * bundleImageImageName(NSString  *imageName)
 - (void)doScan:(UIButton *)button
 {
    
-//    SYQRCodeViewController *qrcodevc = [[SYQRCodeViewController alloc] init];
-//    qrcodevc.SYQRCodeSuncessBlock = ^(SYQRCodeViewController *aqrvc,NSString *qrString){
-//        [aqrvc dismissViewControllerAnimated:NO completion:nil];
-//        goodsViewController *goodsView=[[goodsViewController alloc]init];
+    SYQRCodeViewController *qrcodevc = [[SYQRCodeViewController alloc] init];
+    qrcodevc.SYQRCodeSuncessBlock = ^(SYQRCodeViewController *aqrvc,NSString *qrString){
+        [aqrvc dismissViewControllerAnimated:NO completion:nil];
+//         *goodsView=[[goodsViewController alloc]init];
 //        goodsView.hidesBottomBarWhenPushed=YES;
 //        goodsView.navigationItem.hidesBackButton=YES;
 //        
 //        [goodsView setGoodsUrl:qrString];
 //        [self.navigationController pushViewController:goodsView animated:YES];
-//        
-//    };
-//    qrcodevc.SYQRCodeFailBlock = ^(SYQRCodeViewController *aqrvc){
-//        [aqrvc dismissViewControllerAnimated:NO completion:nil];
-//    };
-//    qrcodevc.SYQRCodeCancleBlock = ^(SYQRCodeViewController *aqrvc){
-//        [aqrvc dismissViewControllerAnimated:NO completion:nil];
-//    };
-//    [self presentViewController:qrcodevc animated:YES completion:nil];
+        
+        ShortCutViewController *shortCutView=[[ShortCutViewController alloc]init];
+        shortCutView.hidesBottomBarWhenPushed=YES;
+        shortCutView.navigationItem.hidesBackButton=YES;
+        
+        [shortCutView setWeburl:qrString];
+        [shortCutView setTopTitle:@"商品详情"];
+        [shortCutView setScanFlag:1];
+        shortCutView.view.backgroundColor = [UIColor whiteColor];
+        [self.navigationController pushViewController:shortCutView animated:YES];
+        
+        
+    };
+    qrcodevc.SYQRCodeFailBlock = ^(SYQRCodeViewController *aqrvc){
+        [aqrvc dismissViewControllerAnimated:NO completion:nil];
+    };
+    qrcodevc.SYQRCodeCancleBlock = ^(SYQRCodeViewController *aqrvc){
+        [aqrvc dismissViewControllerAnimated:NO completion:nil];
+    };
+    [self presentViewController:qrcodevc animated:YES completion:nil];
 }
 -(void)hideTabbar{
     NSArray *views = [self.tabBarController.view subviews];

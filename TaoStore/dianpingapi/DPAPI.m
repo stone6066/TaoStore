@@ -152,7 +152,7 @@
 }
 -(NSInteger)GetNetState{
     
-    Reachability *r = [Reachability reachabilityWithHostName:MainUrl];
+    Reachability *r = [Reachability reachabilityWithHostName:BaseUrl];
     switch ([r currentReachabilityStatus]) {
         case NotReachable:
             // 没有网络连接

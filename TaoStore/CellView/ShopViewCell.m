@@ -7,7 +7,7 @@
 //
 
 #import "ShopViewCell.h"
-#import "dealModel.h"
+#import "goodsHome.h"
 #import "UIImageView+WebCache.h"
 
 
@@ -38,20 +38,20 @@
 
 
 
--(void)showUIWithModel:(dealModel *)model{
-    self.titleLabel.text = model.title;
-    self.currPrice.text = model.price;
+-(void)showUIWithModel:(goodsHome *)model{
+    self.titleLabel.text = model.productName;
+    self.currPrice.text = model.goodsInfoPreferPrice;
     self.biaojia.text= @"¥: ";
-    self.deal_id=model.dealurl;
-    [self.imageView sd_setImageWithURL:[NSURL URLWithString:model.imageurl]];
+    self.deal_id=model.goodsDealUrl;
+    [self.imageView sd_setImageWithURL:[NSURL URLWithString:model.goodsInfoImgId]];
     
 }
 
--(dealModel*)praseModelWithCell:(ShopViewCell *)cell{
-    dealModel *dm = [[dealModel alloc]init];
-    dm.title=cell.titleLabel.text;
+-(goodsHome*)praseModelWithCell:(ShopViewCell *)cell{
+    goodsHome *dm = [[goodsHome alloc]init];
+    dm.productName=cell.titleLabel.text;
     
-    dm.dealurl=cell.deal_id;
+    dm.goodsDealUrl=cell.deal_id;
     return dm;
 }
 

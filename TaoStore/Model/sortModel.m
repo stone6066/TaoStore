@@ -8,40 +8,43 @@
 
 #import "sortModel.h"
 #import "MultilevelMenu.h"
+#import "PublicDefine.h"
+
 @implementation sortModel
 - (NSArray *)asignModelWithDict:(NSDictionary *)dict{
     NSMutableArray *arr = [[NSMutableArray alloc]init];
-    NSDictionary *datadict = [dict objectForKey:@"data"];
-    NSDictionary *typedict = [datadict objectForKey:@"type"];
+   // NSDictionary *datadict = [dict objectForKey:@"data"];
+    NSDictionary *typedict = [dict objectForKey:@"data"];
     
 
     
-    for (NSDictionary *dict in typedict) {
+    for (NSDictionary *dict1 in typedict) {
        
         rightMeun * meun=[[rightMeun alloc] init];
         
         
-        meun.meunName=[dict objectForKey:@"typeName"];//左侧列表
-        meun.ID=[dict objectForKey:@"typeId"];
-        meun.urlName=@"http://img10.360buyimg.com/n7/jfs/t2545/339/1086011859/115096/15e03bf4/568485f2Nb0f80f1f.jpg";
+        meun.meunName=[dict1 objectForKey:@"name"];//左侧列表
+        meun.ID=[[dict1 objectForKey:@"cateId"]stringValue];
+        meun.urlName=[dict objectForKey:@"imgSrc"];
         
         rightMeun * meun1=[[rightMeun alloc] init];
-        meun1.meunName=[dict objectForKey:@"typeName"];//右侧标题
-        meun1.urlName=@"http://img10.360buyimg.com/n7/jfs/t2545/339/1086011859/115096/15e03bf4/568485f2Nb0f80f1f.jpg";
+        meun1.meunName=[dict1 objectForKey:@"name"];//右侧标题
+        meun1.urlName=[dict1 objectForKey:@"imgSrc"];
         
         NSMutableArray * sub=[NSMutableArray arrayWithCapacity:0];
         [sub addObject:meun1];
         meun.nextArray=sub;
         
-        NSDictionary *subdict = [dict objectForKey:@"brands"];
+        NSDictionary *subdict = [dict1 objectForKey:@"childs"];
        
         NSMutableArray *zList=[NSMutableArray arrayWithCapacity:0];
         for (NSDictionary *mydict in subdict)
         {
             rightMeun * subMeun=[[rightMeun alloc] init];
             subMeun.meunName=[mydict objectForKey:@"name"];//右侧详细
-            subMeun.ID=[mydict objectForKey:@"name"];
-            subMeun.urlName=@"http://img10.360buyimg.com/n7/jfs/t2545/339/1086011859/115096/15e03bf4/568485f2Nb0f80f1f.jpg";
+            subMeun.ID=[[mydict objectForKey:@"cateId"]stringValue];
+            subMeun.urlName=[dict objectForKey:@"imgSrc"];
+//            subMeun.menuDealUrl=[NSString stringWithFormat:@"%@%@%@",BaseUrl,@"paistore_m_site/list/",subMeun.ID];
             [zList addObject:subMeun];
         }
          meun1.nextArray=zList;
