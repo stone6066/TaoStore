@@ -293,6 +293,31 @@
 			path = NullSafe;
 			sourceTree = "<group>";
 		};
+		895D24D21CC9F8340010EEC5 /* 3packet */ = {
+			isa = PBXGroup;
+			children = (
+				897C56381CC079E4000F93F5 /* MultilevelMenu */,
+				897C55ED1CC079E4000F93F5 /* AOImageView */,
+				897C562D1CC079E4000F93F5 /* JZMTBtnView */,
+				89C755F31CC717680017EBC8 /* ScanPacket */,
+				89C756051CC769410017EBC8 /* dianpingapi */,
+				89C7560D1CC769E70017EBC8 /* Reachability */,
+				895D24CF1CC9EE3D0010EEC5 /* NullSafe */,
+			);
+			name = 3packet;
+			sourceTree = "<group>";
+		};
+		895D24D31CC9F87D0010EEC5 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				89C755F71CC7198B0017EBC8 /* LoginGroup */,
+				897C56301CC079E4000F93F5 /* mainController */,
+				897C56961CC0868E000F93F5 /* otherController */,
+				897C56471CC079E4000F93F5 /* tabbarController */,
+			);
+			name = controller;
+			sourceTree = "<group>";
+		};
 		897577AE1CC61D1B0098333C /* tabbarIcon */ = {
 			isa = PBXGroup;
 			children = (
@@ -566,22 +591,12 @@
 		89DB8FE01CC0746600C61494 /* TaoStore */ = {
 			isa = PBXGroup;
 			children = (
-				895D24CF1CC9EE3D0010EEC5 /* NullSafe */,
-				89C7560D1CC769E70017EBC8 /* Reachability */,
-				89C756051CC769410017EBC8 /* dianpingapi */,
+				895D24D31CC9F87D0010EEC5 /* controller */,
+				895D24D21CC9F8340010EEC5 /* 3packet */,
 				89C755FE1CC719E20017EBC8 /* StdPacket */,
-				89C755F71CC7198B0017EBC8 /* LoginGroup */,
-				89C755F31CC717680017EBC8 /* ScanPacket */,
-				897C56961CC0868E000F93F5 /* otherController */,
-				897C55ED1CC079E4000F93F5 /* AOImageView */,
 				897C55F31CC079E4000F93F5 /* CellView */,
-				897C55FE1CC079E4000F93F5 /* image */,
-				897C562D1CC079E4000F93F5 /* JZMTBtnView */,
-				897C56301CC079E4000F93F5 /* mainController */,
 				897C56331CC079E4000F93F5 /* Model */,
-				897C56381CC079E4000F93F5 /* MultilevelMenu */,
 				897C56461CC079E4000F93F5 /* PublicDefine.h */,
-				897C56471CC079E4000F93F5 /* tabbarController */,
 				89DB8FE41CC0746600C61494 /* AppDelegate.h */,
 				89DB8FE51CC0746600C61494 /* AppDelegate.m */,
 				89DB8FE71CC0746600C61494 /* ViewController.h */,
@@ -597,6 +612,7 @@
 		89DB8FE11CC0746600C61494 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				897C55FE1CC079E4000F93F5 /* image */,
 				89DB8FE21CC0746600C61494 /* main.m */,
 			);
 			name = "Supporting Files";
