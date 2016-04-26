@@ -49,7 +49,7 @@
         for (NSDictionary *dict1 in dictArray) {
             goodsObjModel *GAH=[[goodsObjModel alloc]init];
             GAH.name=[dict1 objectForKey:@"name"];
-           
+            GAH.title=[dict1 objectForKey:@"title"];
             //[arr addObject:GAH];
             NSArray *arrtmp=[dict1 objectForKey:@"data"];
             NSMutableArray *subarr = [[NSMutableArray alloc]init];

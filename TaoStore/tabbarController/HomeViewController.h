@@ -22,5 +22,6 @@
 }
 @property (strong,nonatomic)NSMutableArray *dataSource;
 @property (nonatomic,strong)UICollectionView *collectionView;
+@property(nonatomic,copy)UITextField *seachTextF;
 //@property (nonatomic,strong)UICollectionView *btncollectionView;
 @end

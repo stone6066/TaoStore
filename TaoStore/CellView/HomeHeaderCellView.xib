@@ -27,9 +27,6 @@
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="当季食材 先享为快" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="waV-QY-77D" userLabel="dealTitle">
                             <rect key="frame" x="296" y="14" width="159" height="21"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="159" id="MYu-pq-NwU"/>
-                            </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                             <color key="textColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -37,12 +34,15 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstAttribute="bottom" secondItem="waV-QY-77D" secondAttribute="bottom" constant="15" id="4No-D5-fRL"/>
                         <constraint firstItem="waV-QY-77D" firstAttribute="firstBaseline" secondItem="m11-xe-Jfz" secondAttribute="firstBaseline" id="5wR-pg-yUf"/>
+                        <constraint firstItem="waV-QY-77D" firstAttribute="top" secondItem="KLP-9R-I53" secondAttribute="top" constant="14" id="ADf-2K-4PV"/>
                         <constraint firstItem="waV-QY-77D" firstAttribute="top" secondItem="KLP-9R-I53" secondAttribute="top" constant="14" id="Arf-XU-89s"/>
                         <constraint firstItem="m11-xe-Jfz" firstAttribute="leading" secondItem="KLP-9R-I53" secondAttribute="leadingMargin" id="aX1-uP-4Hh"/>
                         <constraint firstItem="waV-QY-77D" firstAttribute="centerY" secondItem="m11-xe-Jfz" secondAttribute="centerY" id="hwJ-Ce-PrC"/>
                         <constraint firstAttribute="trailing" secondItem="waV-QY-77D" secondAttribute="trailing" constant="8" id="kOD-uM-Mqo"/>
                         <constraint firstItem="waV-QY-77D" firstAttribute="centerY" secondItem="KLP-9R-I53" secondAttribute="centerY" id="nrE-pL-32W"/>
+                        <constraint firstAttribute="trailing" secondItem="waV-QY-77D" secondAttribute="trailing" constant="8" id="tbn-xa-Zc0"/>
                     </constraints>
                 </view>
             </subviews>

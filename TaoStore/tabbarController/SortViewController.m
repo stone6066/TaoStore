@@ -15,6 +15,7 @@
 #import "sortDealViewController.h"
 #import "SYQRCodeViewController.h"
 #import "ShortCutViewController.h"
+#import "SearchViewController.h"
 
 @interface SortViewController ()<UITextFieldDelegate>
 {
@@ -40,8 +41,7 @@ UITextField * _seachTextF;
 {
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     [super viewWillAppear:animated];
-    [self loadsortSeachView];
-    [self loadSortData];
+    
     
 }
 
@@ -68,6 +68,9 @@ UITextField * _seachTextF;
     tapGestureRecognizer.cancelsTouchesInView = NO;
     //将触摸事件添加到当前view
     [self.view addGestureRecognizer:tapGestureRecognizer];
+    
+    [self loadsortSeachView];
+    [self loadSortData];
     
     // Do any additional setup after loading the view.
 }
@@ -116,6 +119,8 @@ UIImage * sbundleImageImageName(NSString  *imageName)
     //scanBtn.backgroundColor=[UIColor yellowColor];
     [scanBtn addTarget:self action:@selector(doScan:) forControlEvents:UIControlEventTouchUpInside];
     [topSearch addSubview:scanBtn];
+    
+    
     [self.view addSubview:topSearch];
     
     
@@ -126,6 +131,7 @@ UIImage * sbundleImageImageName(NSString  *imageName)
     UIColor *mycolor=[UIColor whiteColor];
     _seachTextF.attributedPlaceholder=[[NSAttributedString alloc]initWithString:@"搜索你喜欢的商品" attributes:@{NSForegroundColorAttributeName: mycolor}];
     
+    [_seachTextF setReturnKeyType:UIReturnKeySearch];
     _seachTextF.textColor=[UIColor whiteColor];
     [seachBgV addSubview:_seachTextF];
     _seachTextF.delegate=self;
@@ -175,21 +181,16 @@ UIImage * sbundleImageImageName(NSString  *imageName)
 }
 - (void)doSeach:(UIButton *)button
 {
-//    if (_seachTextF.text.length==0) {
-//        //MCshowAlertWithTitle(@"", @"搜索内容不能为空");
-//        NSLog(@"%@",@"搜索内容不能为空");
-//        [self sortHiddenKeyBoard];
-//        [self sortShowTabbar];
-//        return;
-//    }
-//    [self sortHiddenKeyBoard];
-//    //[tabBarViewController ];
-//    NSLog(@"%@----%@",@"搜索doSeach",_seachTextF.text);
-//    //[self hideTabbar];
-//    SearchViewController *seachView = [[SearchViewController alloc] init];
-//    
-//    seachView.hidesBottomBarWhenPushed = YES;
-//    [self.navigationController pushViewController:seachView animated:YES];
+    if (_seachTextF.text.length>0) {
+        SearchViewController *searchView=[[SearchViewController alloc]init];
+        searchView.hidesBottomBarWhenPushed=YES;
+        searchView.navigationItem.hidesBackButton=YES;
+        
+        [searchView setSearchToken:_seachTextF.text];
+        
+        [self.navigationController pushViewController:searchView animated:YES];
+    }
+
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField

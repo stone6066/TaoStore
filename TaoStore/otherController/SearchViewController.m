@@ -1,101 +1,49 @@
 //
-//  sortDealViewController.m
-//  StdTaoYXApp
+//  SearchViewController.m
+//  TaoStore
 //
-//  Created by tianan-apple on 15/11/9.
-//  Copyright © 2015年 tianan-apple. All rights reserved.
+//  Created by tianan-apple on 16/4/25.
+//  Copyright © 2016年 tianan-apple. All rights reserved.
 //
 
-#import "sortDealViewController.h"
+#import "SearchViewController.h"
 #import "PublicDefine.h"
-#import "MJRefresh.h"
-#import "dealModel.h"
-#import "ShopViewCell.h"
+#import "SYQRCodeViewController.h"
+#import "ShortCutViewController.h"
 #import "SVProgressHUD.h"
+#import "MJRefresh.h"
 #import "goodsSectionHome.h"
-@interface sortDealViewController ()
-{
-    NSMutableArray *_dataSource;
-    NSString *_selectedCityName;
-    NSString *_selectedCategory;
-    NSInteger _pageindex;//显示数据的页码，每次刷新+1
-    NSMutableArray *_fakeColor;
-    NSString *_sortAllwaysFlash;
-}
-@property(nonatomic,copy)NSString *sortListId;
-@property(nonatomic,copy)NSString *sortType;
-@property(nonatomic,copy)NSString *topTitle;
-@property(nonatomic,strong)UIImageView *topImg;
-@property(nonatomic,strong)UIImageView *bottomImg;
+#import "ShopViewCell.h"
+
+@interface SearchViewController ()
+
 @end
 
+@implementation SearchViewController
 
-@implementation sortDealViewController
-static NSString * const mySortIdentifier = @"MainCell";
-
--(void)setSortListId:(NSString *)sortListId
-{
-    _sortListId=sortListId;
-}
--(void)setTopTitle:(NSString *)topTitle
-{
-    _topTitle=topTitle;
-}
 - (void)viewDidLoad {
     [super viewDidLoad];
     _sortType=@"1D";
     _topImg=[[UIImageView alloc]initWithFrame:CGRectMake(50, 10, 12, 12)];
     _bottomImg=[[UIImageView alloc]initWithFrame:CGRectMake(50, 20, 12, 12)];
-    [self loadNavTopView];
+    [self loadSeachView];
     [self loadCollectionView];
-    [self loadBackToTopBtn];
-    // Do any additional setup after loading the view.
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide:)];
+    //设置成NO表示当前控件响应后会传播到其他控件上，默认为YES。
+    tapGestureRecognizer.cancelsTouchesInView = NO;
+    //将触摸事件添加到当前view
+    [self.view addGestureRecognizer:tapGestureRecognizer];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
-    //[self loadWebView];
-   
+
+-(void)setSearchToken:(NSString *)searchToken{
+    _searchToken=searchToken;
 }
 
-
-
--(void)clickleftbtn{
-   
-    [self.navigationController popViewControllerAnimated:YES];
-    NSLog(@"left");
-    
-}
-
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
-- (void)createBackBtn
-{
-    UIButton *back = [UIButton buttonWithType:UIButtonTypeCustom];
-    back.titleLabel.font = [UIFont boldSystemFontOfSize:13];
-    //[back setTitle:@"Back" forState:UIControlStateNormal];
-    [back setFrame:CGRectMake(5, 2, 60, 24)];
-    [back setBackgroundImage:[UIImage imageNamed:@"bar_back"] forState:UIControlStateNormal];
-    [back addTarget:self action:@selector(clickleftbtn) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView:back];
-    self.navigationItem.leftBarButtonItem = barButton;
-}
 
 -(void)sortBtnClick{
     if ([_sortType isEqualToString:@"1D"]) {
@@ -132,7 +80,6 @@ static NSString * const mySortIdentifier = @"MainCell";
     [self.view addSubview:topView];
 }
 -(void)loadCollectionView{
-    //[self createBackBtn];
     [self loadSortBarView];
     UICollectionViewFlowLayout *flowLayout=[[UICollectionViewFlowLayout alloc] init];
     [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
@@ -147,10 +94,10 @@ static NSString * const mySortIdentifier = @"MainCell";
     self.collectionView.backgroundColor =collectionBgdColor;// [UIColor whiteColor];
     
     //注册cell和ReusableView（相当于头部）
-    [self.collectionView registerNib:[UINib nibWithNibName:@"ShopViewCell" bundle:nil] forCellWithReuseIdentifier:mySortIdentifier];
+    [self.collectionView registerNib:[UINib nibWithNibName:@"ShopViewCell" bundle:nil] forCellWithReuseIdentifier:@"MainCell"];
     
     _pageindex=1;
-    _sortAllwaysFlash=@"0";
+    //_sortAllwaysFlash=@"0";
     
     _dataSource = [NSMutableArray array];//还要再搞一次，否则_dataSource装不进去数据
     [self loadCollectionViewData:_pageindex sortType:_sortType];
@@ -168,12 +115,16 @@ static NSString * const mySortIdentifier = @"MainCell";
     // 上拉刷新
     self.collectionView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         // 进入刷新状态后会自动调用这个block
-        _pageindex+=1;
+        if (_dataSource.count>0) {
+            _pageindex+=1;
+        }
+        else
+            _pageindex=1;
         [self loadCollectionViewData:_pageindex sortType:_sortType];
         // 结束刷新
         [weakSelf.collectionView.mj_footer endRefreshing];
     }];
-
+    
 }
 
 
@@ -190,8 +141,9 @@ static NSString * const mySortIdentifier = @"MainCell";
     //    NSString *PN=[NSString stringWithFormat:@"%@%d",@"&pageNo=",pageNo];POST
     //     NSString *urlstr=[NSString stringWithFormat:@"%@%@",NetUrl,@"&ut=indexVilliageGoods"];
     //
-    NSString *urlstr=[NSString stringWithFormat:@"%@%@%@%@%@%@%@%ld",BaseUrl,@"paistore_m_site/interface/getgoodsbycat.htm?catid=",_sortListId,@"&sort=",sType,@"&pageSize=20",@"&pageNo=",pageno];
-    //NSLog(@"urlstr:%@",urlstr);
+    NSString *urlstr=[NSString stringWithFormat:@"%@%@%@%@%@%@%@%ld",BaseUrl,@"paistore_m_site/interface/searchgoods.htm?title=",_searchToken,@"&sort=",sType,@"&pb.pageSize=20",@"&pb.pageNo=",(long)pageno];
+    urlstr = [urlstr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSLog(@"urlstr:%@",urlstr);
     [ApplicationDelegate.httpManager POST:urlstr
                                parameters:paramDict
                                  progress:^(NSProgress * _Nonnull uploadProgress) {}
@@ -236,7 +188,6 @@ static NSString * const mySortIdentifier = @"MainCell";
                                   }];
     
 }
-
 #pragma mark -- UICollectionViewDataSource
 //定义展示的UICollectionViewCell的个数
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -251,7 +202,7 @@ static NSString * const mySortIdentifier = @"MainCell";
 //每个UICollectionView展示的内容
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    ShopViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:mySortIdentifier forIndexPath:indexPath];
+    ShopViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"MainCell" forIndexPath:indexPath];
     //[cell sizeToFit];
     goodsHome *md=_dataSource[indexPath.item];
     [cell showUIWithModel:md];
@@ -282,7 +233,7 @@ static NSString * const mySortIdentifier = @"MainCell";
 //UICollectionView被选中时调用的方法
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    
 }
 //返回这个UICollectionView是否可以被选择
 -(BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -290,62 +241,128 @@ static NSString * const mySortIdentifier = @"MainCell";
     return YES;
 }
 
-#pragma mark - 刷新控件的代理方法
-#pragma mark 开始进入刷新状态
-
-
-
--(void)dealloc
-{
-    
+-(void)clickleftbtn{
+    [self.navigationController popViewControllerAnimated:YES];
 }
-
--(void)loadBackToTopBtn{
-    // 添加回到顶部按钮
-    _sortTopBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _sortTopBtn.frame = CGRectMake(fDeviceWidth-50, fDeviceHeight-60, 40, 40);
-    [_sortTopBtn setBackgroundImage:[UIImage imageNamed:@"back2top.png"] forState:UIControlStateNormal];
-    [_sortTopBtn addTarget:self action:@selector(backToTopButton) forControlEvents:UIControlEventTouchUpInside];
-    _sortTopBtn.clipsToBounds = YES;
-    _sortTopBtn.hidden = YES;
-    [self.view addSubview:_sortTopBtn];
-}
-- (void)backToTopButton{
-    [self.collectionView setContentOffset:CGPointMake(0, 0) animated:YES];
-}
-// MARK:  计算偏移量
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    //MARK:列表滑动偏移量计算
-    CGPoint point = [self.collectionView contentOffset];
-    
-    if (point.y >= self.collectionView.frame.size.height) {
-        self.sortTopBtn.hidden = NO;
-        [self.view bringSubviewToFront:self.sortTopBtn];
-    } else {
-        self.sortTopBtn.hidden = YES;
-    }
-}
-
-- (void)loadNavTopView
+- (void)loadSeachView
 {
     UIView *topSearch=[[UIView alloc]initWithFrame:CGRectMake(0, 0, fDeviceWidth, TopSeachHigh)];
     topSearch.backgroundColor=topSearchBgdColor;
+    
+    UIImageView *backImg=[[UIImageView alloc]initWithFrame:CGRectMake(8, 26, 60, 24)];
+    backImg.image=[UIImage imageNamed:@"bar_back"];
+    [topSearch addSubview:backImg];
+    
     UIButton *back = [UIButton buttonWithType:UIButtonTypeCustom];
-    back.titleLabel.font = [UIFont boldSystemFontOfSize:13];
-    //[back setTitle:@"Back" forState:UIControlStateNormal];
-    [back setFrame:CGRectMake(8, 24, 60, 24)];
-    [back setBackgroundImage:[UIImage imageNamed:@"bar_back"] forState:UIControlStateNormal];
+    
+    [back setFrame:CGRectMake(0, 22, 50, 44)];
+    
     [back addTarget:self action:@selector(clickleftbtn) forControlEvents:UIControlEventTouchUpInside];
+    //back.backgroundColor=[UIColor yellowColor];
     [topSearch addSubview:back];
     
-    UILabel *viewTitle=[[UILabel alloc]initWithFrame:CGRectMake(fDeviceWidth/2-80, 16, 150, 40)];
-    viewTitle.text=_topTitle;
-    [viewTitle setTextColor:[UIColor whiteColor]];
-    [viewTitle setFont:[UIFont systemFontOfSize:20]];
-    [topSearch addSubview:viewTitle];
     
+    UIImageView * seachBgV = [[UIImageView alloc] initWithFrame:CGRectMake(45, 25, fDeviceWidth-95, 30)];
+    seachBgV.userInteractionEnabled = YES;
+    seachBgV.image =[UIImage imageNamed:@"seachBgd"];
+    seachBgV.userInteractionEnabled = YES;
+    [topSearch addSubview:seachBgV];
+    
+    
+    UIImageView * scanLogo = [[UIImageView alloc] initWithFrame:CGRectMake(fDeviceWidth-40, 25, 22, 22)];
+    scanLogo.userInteractionEnabled = YES;
+    scanLogo.image =[UIImage imageNamed:@"scan"];
+    scanLogo.userInteractionEnabled = YES;
+    [topSearch addSubview:scanLogo];
+    
+    
+    UILabel *scanTxt=[[UILabel alloc]initWithFrame:CGRectMake(fDeviceWidth-41, 45, 40, 20)];
+    scanTxt.text=@"扫一扫";
+    scanTxt.font=[UIFont systemFontOfSize:8];
+    scanTxt.textColor=[UIColor whiteColor];
+    [topSearch addSubview:scanTxt];
+    
+    UIButton * scanBtn = [[UIButton alloc] initWithFrame:CGRectMake(topSearch.frame.size.width-48, 0, 50, 50)];
+    
+    //scanBtn.backgroundColor=[UIColor yellowColor];
+    [scanBtn addTarget:self action:@selector(doScan:) forControlEvents:UIControlEventTouchUpInside];
+    [topSearch addSubview:scanBtn];
+    
+    //    UIBarButtonItem *topBarBtn=[[UIBarButtonItem alloc]initWithCustomView:topSearch];
+    //    self.navigationItem.rightBarButtonItem=topBarBtn;
     [self.view addSubview:topSearch];
+    
+    
+    _seachTextF = [[UITextField alloc] initWithFrame:CGRectMake(35, -1, fDeviceWidth-100-35, 35)];
+    _seachTextF.backgroundColor = [UIColor clearColor];
+    [_seachTextF setTintColor:[UIColor blueColor]];
+    _seachTextF.textAlignment = UITextAutocorrectionTypeDefault;//UITextAlignmentCenter;
+    UIColor *mycolor=[UIColor whiteColor];
+//    _seachTextF.attributedPlaceholder=[[NSAttributedString alloc]initWithString:@"搜索你喜欢的商品" attributes:@{NSForegroundColorAttributeName: mycolor}];
+    _seachTextF.text=_searchToken;
+    [_seachTextF setReturnKeyType:UIReturnKeySearch];
+    _seachTextF.textColor=[UIColor whiteColor];
+    [seachBgV addSubview:_seachTextF];
+    _seachTextF.delegate=self;
+    UIButton * seachBtn = [[UIButton alloc] initWithFrame:CGRectMake(45, 24, 40, 35)];
+    [seachBtn setImageEdgeInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
+    [topSearch addSubview:seachBtn];
+    [seachBtn setImage:[UIImage imageNamed:@"queryBtn@2x"] forState:UIControlStateNormal];
+    [seachBtn setImage:[UIImage imageNamed:@"queryBtn@2x"] forState:UIControlStateHighlighted];
+    [seachBtn addTarget:self action:@selector(doSeach:) forControlEvents:UIControlEventTouchUpInside];
 }
 
+
+- (void)doSeach:(UIButton *)button
+{
+    _pageindex=1;
+    _sortType=@"1D";
+    [self loadCollectionViewData:_pageindex sortType:_sortType];
+}
+- (void)doScan:(UIButton *)button
+{
+    
+    SYQRCodeViewController *qrcodevc = [[SYQRCodeViewController alloc] init];
+    qrcodevc.SYQRCodeSuncessBlock = ^(SYQRCodeViewController *aqrvc,NSString *qrString){
+        [aqrvc dismissViewControllerAnimated:NO completion:nil];
+        
+        ShortCutViewController *shortCutView=[[ShortCutViewController alloc]init];
+        shortCutView.hidesBottomBarWhenPushed=YES;
+        shortCutView.navigationItem.hidesBackButton=YES;
+        
+        [shortCutView setWeburl:qrString];
+        [shortCutView setTopTitle:@"商品详情"];
+        [shortCutView setScanFlag:1];
+        shortCutView.view.backgroundColor = [UIColor whiteColor];
+        [self.navigationController pushViewController:shortCutView animated:YES];
+        
+        
+    };
+    qrcodevc.SYQRCodeFailBlock = ^(SYQRCodeViewController *aqrvc){
+        [aqrvc dismissViewControllerAnimated:NO completion:nil];
+    };
+    qrcodevc.SYQRCodeCancleBlock = ^(SYQRCodeViewController *aqrvc){
+        [aqrvc dismissViewControllerAnimated:NO completion:nil];
+    };
+    [self presentViewController:qrcodevc animated:YES completion:nil];
+}
+
+
+-(void)keyboardHide:(UITapGestureRecognizer*)tap{
+    [_seachTextF resignFirstResponder];
+}
+
+-(void)hiddenKeyBoard
+{
+    if ([_seachTextF isFirstResponder]) {
+        [_seachTextF resignFirstResponder];
+    }
+}
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    
+    [textField resignFirstResponder]; //键盘按下return，这句代码可以隐藏 键盘
+    [self doSeach:nil];
+    return YES;
+}
 @end

@@ -11,6 +11,8 @@
 @interface goodsObjModel : NSObject
 //名称
 @property (copy,nonatomic)NSString * name;
+//详细
+@property (copy,nonatomic)NSString * title;
 //子数据数组
 @property (strong,nonatomic)NSMutableArray * subcategories;
 @end

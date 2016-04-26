@@ -20,6 +20,7 @@
 #import "goodsHome.h"
 #import "DPAPI.h"
 #import "goodsObjModel.h"
+#import "SearchViewController.h"
 
 @interface HomeViewController ()<DPRequestDelegate>
 {
@@ -29,7 +30,7 @@
     NSInteger _pageindex;//显示数据的页码，每次刷新+1
     NSMutableArray *_fakeColor;
     
-    UITextField * _seachTextF;
+    
     NSMutableArray *_menuArray;
     UIButton *btn;
     NSString *_homeAllwaysFlash;
@@ -171,7 +172,11 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
     // 上拉刷新
     self.collectionView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         // 进入刷新状态后会自动调用这个block
-        _pageindex+=1;
+        if (_dataSource.count>0) {
+             _pageindex+=1;
+        }
+        else
+           _pageindex=1;
         [self loadMoreCollectionViewData:_pageindex];
         // 结束刷新
         [weakSelf.collectionView.mj_footer endRefreshing];
@@ -249,7 +254,7 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
 //     NSString *urlstr=[NSString stringWithFormat:@"%@%@",NetUrl,@"&ut=indexVilliageGoods"];
 //   
     NSString *urlstr=[NSString stringWithFormat:@"%@%@",BaseUrl,@"paistore_m_site/interface/getmainpagegoods.htm"];
-    //NSLog(@"urlstr:%@",urlstr);
+    NSLog(@"urlstr:%@",urlstr);
     [ApplicationDelegate.httpManager POST:urlstr
                                parameters:paramDict
                                  progress:^(NSProgress * _Nonnull uploadProgress) {}
@@ -399,6 +404,7 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
                                            UICollectionElementKindSectionHeader   withReuseIdentifier:@"homeHeader"   forIndexPath:indexPath];
         goodsObjModel * GOB=_dataSource[indexPath.section-3];
         headerView.mainTitle.text=GOB.name;
+        headerView.dealTitle.text=GOB.title;
         return headerView;
     }
     
@@ -496,9 +502,9 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
 
 -(void)hiddenKeyBoard
 {
-    if ([_seachTextF isFirstResponder]) {
-        [_seachTextF resignFirstResponder];
-    }
+//    if ([_seachTextF isFirstResponder]) {
+//        [_seachTextF resignFirstResponder];
+//    }
 }
 
 UIImage * bundleImageImageName(NSString  *imageName)
@@ -507,15 +513,27 @@ UIImage * bundleImageImageName(NSString  *imageName)
     UIImage *image = [[UIImage alloc]initWithContentsOfFile:path];
     return image;
 }
+
+//取消searchbar背景色
+- (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size
+{
+    CGRect rect = CGRectMake(0, 0, size.width, size.height);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
+}
+
 - (void)loadSeachView
 {
     UIView *topSearch=[[UIView alloc]initWithFrame:CGRectMake(0, 0, fDeviceWidth, TopSeachHigh)];
     topSearch.backgroundColor=topSearchBgdColor;
-//    UIImageView * seachLogo = [[UIImageView alloc] initWithFrame:CGRectMake(5, 25, 30, 30)];
-//    seachLogo.userInteractionEnabled = YES;
-//    seachLogo.image =[UIImage imageNamed:@"topLogo"];
-//    seachLogo.userInteractionEnabled = YES;
-//    [topSearch addSubview:seachLogo];
     
     UIImageView * seachBgV = [[UIImageView alloc] initWithFrame:CGRectMake(45, 25, fDeviceWidth-95, 30)];
     seachBgV.userInteractionEnabled = YES;
@@ -543,8 +561,7 @@ UIImage * bundleImageImageName(NSString  *imageName)
     [scanBtn addTarget:self action:@selector(doScan:) forControlEvents:UIControlEventTouchUpInside];
     [topSearch addSubview:scanBtn];
     
-//    UIBarButtonItem *topBarBtn=[[UIBarButtonItem alloc]initWithCustomView:topSearch];
-//    self.navigationItem.rightBarButtonItem=topBarBtn;
+    
     [self.view addSubview:topSearch];
     
     
@@ -555,6 +572,7 @@ UIImage * bundleImageImageName(NSString  *imageName)
     UIColor *mycolor=[UIColor whiteColor];
     _seachTextF.attributedPlaceholder=[[NSAttributedString alloc]initWithString:@"搜索你喜欢的商品" attributes:@{NSForegroundColorAttributeName: mycolor}];
     
+    [_seachTextF setReturnKeyType:UIReturnKeySearch];
     _seachTextF.textColor=[UIColor whiteColor];
     [seachBgV addSubview:_seachTextF];
     _seachTextF.delegate=self;
@@ -569,6 +587,15 @@ UIImage * bundleImageImageName(NSString  *imageName)
 
 - (void)doSeach:(UIButton *)button
 {
+    if (_seachTextF.text.length>0) {
+        SearchViewController *searchView=[[SearchViewController alloc]init];
+        searchView.hidesBottomBarWhenPushed=YES;
+        searchView.navigationItem.hidesBackButton=YES;
+        
+        [searchView setSearchToken:_seachTextF.text];
+        
+        [self.navigationController pushViewController:searchView animated:YES];
+    }
     
 }
 - (void)doScan:(UIButton *)button
@@ -577,12 +604,7 @@ UIImage * bundleImageImageName(NSString  *imageName)
     SYQRCodeViewController *qrcodevc = [[SYQRCodeViewController alloc] init];
     qrcodevc.SYQRCodeSuncessBlock = ^(SYQRCodeViewController *aqrvc,NSString *qrString){
         [aqrvc dismissViewControllerAnimated:NO completion:nil];
-//         *goodsView=[[goodsViewController alloc]init];
-//        goodsView.hidesBottomBarWhenPushed=YES;
-//        goodsView.navigationItem.hidesBackButton=YES;
-//        
-//        [goodsView setGoodsUrl:qrString];
-//        [self.navigationController pushViewController:goodsView animated:YES];
+
         
         ShortCutViewController *shortCutView=[[ShortCutViewController alloc]init];
         shortCutView.hidesBottomBarWhenPushed=YES;

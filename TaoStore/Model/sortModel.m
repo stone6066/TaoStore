@@ -35,7 +35,7 @@
         [sub addObject:meun1];
         meun.nextArray=sub;
         
-        NSDictionary *subdict = [dict1 objectForKey:@"childs"];
+        NSDictionary *subdict = [dict1 objectForKey:@"subMob"];
        
         NSMutableArray *zList=[NSMutableArray arrayWithCapacity:0];
         for (NSDictionary *mydict in subdict)
