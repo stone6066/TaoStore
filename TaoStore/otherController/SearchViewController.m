@@ -23,9 +23,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _sortType=@"1D";
-    _topImg=[[UIImageView alloc]initWithFrame:CGRectMake(50, 10, 12, 12)];
-    _bottomImg=[[UIImageView alloc]initWithFrame:CGRectMake(50, 20, 12, 12)];
+    _sortType=@"3D";//默认 创建时间
+    
+    
     [self loadSeachView];
     [self loadCollectionView];
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide:)];
@@ -35,6 +35,62 @@
     [self.view addGestureRecognizer:tapGestureRecognizer];
 }
 
+-(void)initTopImg:(UIView*)backView{
+    CGFloat btnWidth=fDeviceWidth/4 -5;
+    CGFloat imgSpear=fDeviceWidth/4 -5;
+    CGFloat imgLeftX=50;
+    _upImgArr=[[NSMutableArray alloc]init];
+    _downImgArr=[[NSMutableArray alloc]init];
+
+
+    _defaultTitle=[[UILabel alloc]initWithFrame:CGRectMake(12, 2, 60, 40)];
+    _defaultTitle.text=@"默认";
+    _defaultTitle.font=[UIFont systemFontOfSize:15];
+    _defaultTitle.textColor=[UIColor blackColor];
+    
+    _saleNumsTitle=[[UILabel alloc]initWithFrame:CGRectMake(12+imgSpear, 2, 60, 40)];
+    _saleNumsTitle.text=@"销量";
+    _saleNumsTitle.font=[UIFont systemFontOfSize:15];
+    _saleNumsTitle.textColor=[UIColor blackColor];
+    
+    _priceTitle=[[UILabel alloc]initWithFrame:CGRectMake(12+imgSpear*2, 2, 60, 40)];
+    _priceTitle.text=@"价格";
+    _priceTitle.font=[UIFont systemFontOfSize:15];
+    _priceTitle.textColor=[UIColor blackColor];
+    
+    _populTitle=[[UILabel alloc]initWithFrame:CGRectMake(12+imgSpear*3, 2, 60, 40)];
+    _populTitle.text=@"人气";
+    _populTitle.font=[UIFont systemFontOfSize:15];
+    _populTitle.textColor=[UIColor blackColor];
+    
+    [backView addSubview:_defaultTitle];
+    [backView addSubview:_saleNumsTitle];
+    [backView addSubview:_priceTitle];
+    [backView addSubview:_populTitle];
+    
+    for (int i=0; i<4; i++) {
+        UIImageView *upImg=[[UIImageView alloc]initWithFrame:CGRectMake(imgLeftX+i*imgSpear, 10, 12, 12)];
+        UIImageView *downImg=[[UIImageView alloc]initWithFrame:CGRectMake(imgLeftX+i*imgSpear, 20, 12, 12)];
+        if (i==0) {
+            upImg.image=[UIImage imageNamed:@"top_1"];
+        }
+        else
+            upImg.image=[UIImage imageNamed:@"top"];
+        
+        downImg.image=[UIImage imageNamed:@"bottom"];
+        
+        [backView addSubview:upImg];
+        [backView addSubview:downImg];
+        [_upImgArr addObject:upImg];
+        [_downImgArr addObject:downImg];
+        UIButton *sortBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+        [sortBtn setFrame:CGRectMake(2+i*(fDeviceWidth/4), 2, btnWidth, 40)];
+        sortBtn.tag=i;
+        [sortBtn addTarget:self action:@selector(sortBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [backView addSubview:sortBtn];
+    }
+    
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -44,39 +100,95 @@
     _searchToken=searchToken;
 }
 
+-(void)setTopImg:(NSInteger)imgIdex upDown:(NSInteger)imgFlag{
+    for (int i=0; i<4; i++) {
+        UIImageView * imgTmp=_upImgArr[i];
+         UIImageView * imgTmp1=_downImgArr[i];
+        if (i==imgIdex) {
+            if (imgFlag==0) {
+                imgTmp.image=[UIImage imageNamed:@"top_1"];
+                imgTmp1.image=[UIImage imageNamed:@"bottom"];
+            }
+            else
+            {
+                imgTmp.image=[UIImage imageNamed:@"top"];
+                imgTmp1.image=[UIImage imageNamed:@"bottom_1"];
+            }
+        }
+        else
+        {
+            imgTmp.image=[UIImage imageNamed:@"top"];
+            imgTmp1.image=[UIImage imageNamed:@"bottom"];
+        }
+        
+        
+    }
 
--(void)sortBtnClick{
-    if ([_sortType isEqualToString:@"1D"]) {
-        _sortType=@"11D";
-        _topImg.image=[UIImage imageNamed:@"top_1"];
-        _bottomImg.image=[UIImage imageNamed:@"bottom"];
+}
+
+-(void)sortBtnClick:(UIButton *)button{
+    NSInteger imgflags=0;
+    switch (button.tag) {
+        case 0://默认点击
+            if ([_sortType isEqualToString:@"3D"]) {
+                _sortType=@"33D";
+                imgflags=1;
+                
+            }
+            else
+            {
+                _sortType=@"3D";
+                imgflags=0;
+            }
+            break;
+        case 1://销量
+            if ([_sortType isEqualToString:@"2D"]) {
+                _sortType=@"22D";
+                imgflags=1;
+            }
+            else
+            {
+                _sortType=@"2D";
+                imgflags=0;
+            }
+            break;
+        case 2://价格
+            if ([_sortType isEqualToString:@"1D"]) {
+                _sortType=@"11D";
+                imgflags=1;
+            }
+            else
+            {
+                _sortType=@"1D";
+                imgflags=0;
+            }
+            break;
+        case 3://人气
+            if ([_sortType isEqualToString:@"4D"]) {
+                _sortType=@"44D";
+                imgflags=1;
+            }
+            else
+            {
+                _sortType=@"4D";
+                imgflags=0;
+            }
+            break;
+        default:
+            break;
     }
-    else
-    {
-        _sortType=@"1D";
-        _topImg.image=[UIImage imageNamed:@"top"];
-        _bottomImg.image=[UIImage imageNamed:@"bottom_1"];
-    }
+    [self setTopImg:button.tag upDown:imgflags];
     _pageindex=1;
     [self loadCollectionViewData:_pageindex sortType:_sortType];
 }
 -(void)loadSortBarView{
     UIView *topView=[[UIView alloc]initWithFrame:CGRectMake(0, TopSeachHigh, fDeviceWidth, 45)];
-    UILabel *lbl=[[UILabel alloc]initWithFrame:CGRectMake(10, 2, 60, 40)];
-    lbl.text=@"价格";
-    lbl.font=[UIFont systemFontOfSize:15];
-    lbl.textColor=[UIColor blackColor];
-    [topView addSubview:lbl];
-    _topImg.image=[UIImage imageNamed:@"top"];
-    _bottomImg.image=[UIImage imageNamed:@"bottom_1"];
-    [topView addSubview:_topImg];
-    [topView addSubview:_bottomImg];
-    UIButton *sortBtn=[UIButton buttonWithType:UIButtonTypeCustom];
-    [sortBtn setFrame:CGRectMake(2, 2, 60, 40)];
+    
+    
     //sortBtn.backgroundColor=[UIColor redColor];
-    [topView addSubview:sortBtn];
+    [self initTopImg:topView];
     topView.backgroundColor=MyGrayColor;
-    [sortBtn addTarget:self action:@selector(sortBtnClick) forControlEvents:UIControlEventTouchUpInside];
+   
     [self.view addSubview:topView];
 }
 -(void)loadCollectionView{
@@ -142,7 +254,7 @@
     //     NSString *urlstr=[NSString stringWithFormat:@"%@%@",NetUrl,@"&ut=indexVilliageGoods"];
     //
     NSString *urlstr=[NSString stringWithFormat:@"%@%@%@%@%@%@%@%ld",BaseUrl,@"paistore_m_site/interface/searchgoods.htm?title=",_searchToken,@"&sort=",sType,@"&pb.pageSize=20",@"&pb.pageNo=",(long)pageno];
-    urlstr = [urlstr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    //urlstr = [urlstr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSLog(@"urlstr:%@",urlstr);
     [ApplicationDelegate.httpManager POST:urlstr
                                parameters:paramDict

@@ -43,6 +43,8 @@
             rightMeun * subMeun=[[rightMeun alloc] init];
             subMeun.meunName=[mydict objectForKey:@"name"];//右侧详细
             subMeun.ID=[[mydict objectForKey:@"cateId"]stringValue];
+            
+            //if(![[dict objectForKey:@"imgSrc"] isEqual:[NSNull null]])
             subMeun.urlName=[dict objectForKey:@"imgSrc"];
 //            subMeun.menuDealUrl=[NSString stringWithFormat:@"%@%@%@",BaseUrl,@"paistore_m_site/list/",subMeun.ID];
             [zList addObject:subMeun];

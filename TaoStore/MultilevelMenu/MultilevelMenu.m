@@ -13,7 +13,7 @@
 #import "PublicDefine.h"
 
 #define kCellRightLineTag 100
-#define kImageDefaultName @"tempShop"
+
 #define kMultilevelCollectionViewCell @"MultilevelCollectionViewCell"
 #define kMultilevelCollectionHeader   @"CollectionHeader"//CollectionHeader
 //#define kScreenWidth [UIScreen mainScreen].bounds.size.width
@@ -199,13 +199,13 @@
     
     
     if (indexPath.row==self.selectIndex) {
-        NSLog(@"设置 点中");
+        //NSLog(@"设置 点中");
         [self setLeftTablewCellSelected:YES withCell:cell];
     }
     else{
         [self setLeftTablewCellSelected:NO withCell:cell];
 
-        NSLog(@"设置 不点中");
+        //NSLog(@"设置 不点中");
 
     }
     
@@ -281,7 +281,7 @@
     }
     
     rightMeun * title=self.allData[self.selectIndex];
-    NSLog(@"----------%ld",title.nextArray.count);
+    //NSLog(@"----------%ld",title.nextArray.count);
      return   title.nextArray.count;
     
     

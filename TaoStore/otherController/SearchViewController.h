@@ -14,9 +14,16 @@
 @property(nonatomic,copy)NSString *searchToken;//查询关键字
 @property(nonatomic,copy)UITextField *seachTextF;
 @property(nonatomic,copy)NSString *sortType;
-@property(nonatomic,copy)NSString *topTitle;
-@property(nonatomic,strong)UIImageView *topImg;
-@property(nonatomic,strong)UIImageView *bottomImg;
+
+@property(nonatomic,copy)UILabel *priceTitle;//1D
+@property(nonatomic,copy)UILabel *defaultTitle;//3D
+@property(nonatomic,copy)UILabel *saleNumsTitle;//2D
+@property(nonatomic,copy)UILabel *populTitle;//4D
+
+
 @property(nonatomic,assign)NSInteger pageindex;
 @property(nonatomic,strong)NSMutableArray *dataSource;
+
+@property(nonatomic,strong)NSMutableArray *upImgArr;
+@property(nonatomic,strong)NSMutableArray *downImgArr;
 @end

@@ -14,6 +14,8 @@
 		895D24D91CCA0D240010EEC5 /* bottom.png in Resources */ = {isa = PBXBuildFile; fileRef = 895D24D51CCA0D240010EEC5 /* bottom.png */; };
 		895D24DA1CCA0D240010EEC5 /* top_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 895D24D61CCA0D240010EEC5 /* top_1.png */; };
 		895D24DB1CCA0D240010EEC5 /* top.png in Resources */ = {isa = PBXBuildFile; fileRef = 895D24D71CCA0D240010EEC5 /* top.png */; };
+		895EDDFB1CD07F440011F226 /* orderListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 895EDDFA1CD07F440011F226 /* orderListModel.m */; };
+		895EDDFD1CD096B50011F226 /* defaultImg.png in Resources */ = {isa = PBXBuildFile; fileRef = 895EDDFC1CD096B50011F226 /* defaultImg.png */; };
 		8961B65D1CC9C29700857231 /* goodsObjModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8961B65C1CC9C29700857231 /* goodsObjModel.m */; };
 		897577AC1CC5C2950098333C /* AreaCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 897577AA1CC5C2950098333C /* AreaCell.m */; };
 		897577CD1CC61D5A0098333C /* assortment_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 897577AF1CC61D5A0098333C /* assortment_selected.png */; };
@@ -86,6 +88,7 @@
 		897C56941CC079E4000F93F5 /* ShopCarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 897C564F1CC079E4000F93F5 /* ShopCarViewController.m */; };
 		897C56951CC079E4000F93F5 /* SortViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 897C56511CC079E4000F93F5 /* SortViewController.m */; };
 		897C56991CC0868E000F93F5 /* sortDealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 897C56981CC0868E000F93F5 /* sortDealViewController.m */; };
+		899C77D01CCF5D4C003D3466 /* test.js in Resources */ = {isa = PBXBuildFile; fileRef = 899C77CF1CCF5D4C003D3466 /* test.js */; };
 		89A95BEE1CC4A32100FDFCB3 /* ADCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A95BED1CC4A32100FDFCB3 /* ADCollectionViewCell.m */; };
 		89C755F21CC716DC0017EBC8 /* ShortCutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C755F11CC716DC0017EBC8 /* ShortCutViewController.m */; };
 		89C755F61CC717680017EBC8 /* SYQRCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C755F51CC717680017EBC8 /* SYQRCodeViewController.m */; };
@@ -134,6 +137,9 @@
 		895D24D51CCA0D240010EEC5 /* bottom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottom.png; sourceTree = "<group>"; };
 		895D24D61CCA0D240010EEC5 /* top_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = top_1.png; sourceTree = "<group>"; };
 		895D24D71CCA0D240010EEC5 /* top.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = top.png; sourceTree = "<group>"; };
+		895EDDF91CD07F440011F226 /* orderListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = orderListModel.h; sourceTree = "<group>"; };
+		895EDDFA1CD07F440011F226 /* orderListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = orderListModel.m; sourceTree = "<group>"; };
+		895EDDFC1CD096B50011F226 /* defaultImg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultImg.png; sourceTree = "<group>"; };
 		8961B65B1CC9C29700857231 /* goodsObjModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = goodsObjModel.h; sourceTree = "<group>"; };
 		8961B65C1CC9C29700857231 /* goodsObjModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = goodsObjModel.m; sourceTree = "<group>"; };
 		897577A91CC5C2950098333C /* AreaCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreaCell.h; sourceTree = "<group>"; };
@@ -230,6 +236,7 @@
 		897C56511CC079E4000F93F5 /* SortViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SortViewController.m; sourceTree = "<group>"; };
 		897C56971CC0868E000F93F5 /* sortDealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sortDealViewController.h; sourceTree = "<group>"; };
 		897C56981CC0868E000F93F5 /* sortDealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = sortDealViewController.m; sourceTree = "<group>"; };
+		899C77CF1CCF5D4C003D3466 /* test.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = test.js; sourceTree = "<group>"; };
 		89A95BEC1CC4A32100FDFCB3 /* ADCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADCollectionViewCell.h; sourceTree = "<group>"; };
 		89A95BED1CC4A32100FDFCB3 /* ADCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADCollectionViewCell.m; sourceTree = "<group>"; };
 		89C755F01CC716DC0017EBC8 /* ShortCutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShortCutViewController.h; sourceTree = "<group>"; };
@@ -416,6 +423,7 @@
 		897C55FF1CC079E4000F93F5 /* btnIcon */ = {
 			isa = PBXGroup;
 			children = (
+				895EDDFC1CD096B50011F226 /* defaultImg.png */,
 				895D24D41CCA0D240010EEC5 /* bottom_1.png */,
 				895D24D51CCA0D240010EEC5 /* bottom.png */,
 				895D24D61CCA0D240010EEC5 /* top_1.png */,
@@ -469,6 +477,8 @@
 				89054BA51CC8BC0700AAD4F4 /* goodsSectionHome.m */,
 				8961B65B1CC9C29700857231 /* goodsObjModel.h */,
 				8961B65C1CC9C29700857231 /* goodsObjModel.m */,
+				895EDDF91CD07F440011F226 /* orderListModel.h */,
+				895EDDFA1CD07F440011F226 /* orderListModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -619,6 +629,7 @@
 				89DB8FE71CC0746600C61494 /* ViewController.h */,
 				89DB8FE81CC0746600C61494 /* ViewController.m */,
 				89DB8FF01CC0746600C61494 /* Assets.xcassets */,
+				899C77CF1CCF5D4C003D3466 /* test.js */,
 				89DB8FF51CC0746600C61494 /* Info.plist */,
 				89DB8FED1CC0746600C61494 /* TaoStore.xcdatamodeld */,
 				89DB8FE11CC0746600C61494 /* Supporting Files */,
@@ -787,6 +798,7 @@
 				897577D61CC61D5A0098333C /* discovery.png in Resources */,
 				897C56601CC079E4000F93F5 /* scan@2x.png in Resources */,
 				897577D81CC61D5A0098333C /* discovery@3x.png in Resources */,
+				895EDDFD1CD096B50011F226 /* defaultImg.png in Resources */,
 				897577E31CC61D5A0098333C /* myInfo@2x.png in Resources */,
 				897577CF1CC61D5A0098333C /* assortment_selected@3x.png in Resources */,
 				897577D31CC61D5A0098333C /* discovery_selected.png in Resources */,
@@ -826,6 +838,7 @@
 				897C568B1CC079E4000F93F5 /* CollectionHeader.xib in Resources */,
 				897C56671CC079E4000F93F5 /* topLogo@3x.png in Resources */,
 				895D24D81CCA0D240010EEC5 /* bottom_1.png in Resources */,
+				899C77D01CCF5D4C003D3466 /* test.js in Resources */,
 				897577DD1CC61D5A0098333C /* home@2x.png in Resources */,
 				897577D21CC61D5A0098333C /* assortment@3x.png in Resources */,
 				897577E81CC61D5A0098333C /* shopCar.png in Resources */,
@@ -904,6 +917,7 @@
 			files = (
 				89C755FC1CC7198B0017EBC8 /* LoginViewController.m in Sources */,
 				89DB8FE91CC0746600C61494 /* ViewController.m in Sources */,
+				895EDDFB1CD07F440011F226 /* orderListModel.m in Sources */,
 				897C56941CC079E4000F93F5 /* ShopCarViewController.m in Sources */,
 				89DB8FE61CC0746600C61494 /* AppDelegate.m in Sources */,
 				897C56861CC079E4000F93F5 /* JZMTBtnView.m in Sources */,

@@ -30,7 +30,7 @@
         GH.goodsInfoImgId=[dict1 objectForKey:@"goodsInfoImgId"];
         GH.goodsInfoId=[dict1 objectForKey:@"goodsInfoId"];
         
-        GH.goodsDealUrl=[NSString stringWithFormat:@"%@%@%@%@",BaseUrl,@"mobile/item/",GH.goodsInfoId,@".html"];
+        GH.goodsDealUrl=[NSString stringWithFormat:@"%@%@%@%@",BaseUrl,@"paistore_m_site/item/",GH.goodsInfoId,@".html"];
         [arr addObject:GH];
     }
     

@@ -11,6 +11,17 @@
 @interface sortDealViewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate>
 @property (nonatomic,strong)UICollectionView *collectionView;
 @property(nonatomic,strong)UIButton *sortTopBtn;
+@property(nonatomic,copy)NSString *topTitle;
+@property(nonatomic,copy)NSString *sortType;
+
+@property(nonatomic,copy)UILabel *priceTitle;//1D
+@property(nonatomic,copy)UILabel *defaultTitle;//3D
+@property(nonatomic,copy)UILabel *saleNumsTitle;//2D
+@property(nonatomic,copy)UILabel *populTitle;//4D
+
+@property(nonatomic,strong)NSMutableArray *upImgArr;
+@property(nonatomic,strong)NSMutableArray *downImgArr;
+
 -(void)setSortListId:(NSString *)sortListId;
 -(void)setTopTitle:(NSString *)topTitle;
 @end

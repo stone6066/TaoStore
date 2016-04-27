@@ -10,5 +10,8 @@
 
 @interface AccountViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView* tableView;
-
+@property(nonatomic, strong) UIWebView *webView;
+@property(nonatomic,copy)NSString *weburl;
+@property(nonatomic,strong)NSURLRequest *request;
+@property(nonatomic,strong) UIActivityIndicatorView *activityIndicator;
 @end

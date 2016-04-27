@@ -10,8 +10,8 @@
 #import "UIImageView+WebCache.h"
 #import "PublicDefine.h"
 #import "ShortCutViewController.h"
-
-@interface AccountViewController ()
+#import "DPAPI.h"
+@interface AccountViewController ()<DPRequestDelegate,UIWebViewDelegate>
 {
     NSMutableArray *_tableDataSource;
 }
@@ -21,18 +21,47 @@
 
 - (void)viewDidLoad {
    [super viewDidLoad];
+    [self loadNavTopView];
+    
     //
     // Do any additional setup after loading the view.
   
 }
+
+# pragma 网络请求
+- (void)createLoginRequest{
+    DPAPI *api = [[DPAPI alloc]init];
+    NSMutableDictionary *params = [[NSMutableDictionary alloc]init];
+    [params setValue:@"islogin" forKey:@"ut"];
+    [api setAllwaysFlash:@"1"];
+    NSString *myurl=[NSString stringWithFormat:@"%@%@",BaseUrl,@"paistore_m_site/interface/islogin.htm"];;
+    [api loginRequestWithURL:myurl params:params delegate:self];
+}
+
+-(void)loginrequest:(DPRequest *)request didFinishLoadingWithResult:(id)result{
+    NSDictionary *dict=result;
+    NSString *logstr=[dict objectForKey:@"result"];
+    if ([logstr isEqualToString:@"true"]) {//已经登录
+        [self loadNavTopView];
+        [self loadUserImage];
+        [self loadTableView];
+    }
+    else
+    {
+        
+        _weburl=[NSString stringWithFormat:@"%@%@",BaseUrl,@"paistore_m_site/loginmobile.html"];
+        [self loadWebView];
+    }
+}
+
 -(void)viewWillAppear:(BOOL)animated
 {
     NSLog(@"我的");
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
-    [self loadNavTopView];
-    [self loadUserImage];
-    [self loadTableView];
+    [self createLoginRequest];
+//    [self loadUserImage];
+//    [self loadTableView];
 }
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -143,8 +172,32 @@
     //self.tableView.backgroundColor=collectionBgdColor;
 }
 -(void)clickOutbtn{
-    //[self createLoginOutRequest];
+    [self createLoginOutRequest];
 }
+# pragma 网络请求
+- (void)createLoginOutRequest{
+    DPAPI *api = [[DPAPI alloc]init];
+    NSMutableDictionary *params = [[NSMutableDictionary alloc]init];
+    //[params setValue:@"logout" forKey:@"ut"];
+    [api setAllwaysFlash:@"1"];
+    
+    NSString *myurl=[NSString stringWithFormat:@"%@%@",BaseUrl,@"paistore_m_site/interface/logout.htm"];
+    //@"http://192.168.0.13/nst/jumpmobilelogout.htm";
+    //NetUrl;
+    [api typeRequestWithURL:myurl params:params delegate:self];
+}
+- (void)typerequest:(DPRequest *)request didFinishLoadingWithResult:(id)result{
+    NSDictionary *dict=result;
+    NSString *logstr=[dict objectForKey:@"result"];
+    if ([logstr isEqualToString:@"true"]) {//退出登录成功
+        [self.navigationController popViewControllerAnimated:YES];
+        _weburl=[NSString stringWithFormat:@"%@%@",BaseUrl,@"paistore_m_site/loginmobile.html"];
+        [self loadWebView];
+    }
+
+
+}
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -214,5 +267,92 @@
     shortCutView.view.backgroundColor=[UIColor whiteColor];
     [self.navigationController pushViewController:shortCutView animated:YES];
 }
+
+
+
+
+-(void) loadWebView{
+    //[self.view addSubview:TopView];
+    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, TopSeachHigh, fDeviceWidth, fDeviceHeight-TopSeachHigh)];
+    [self.webView setDelegate:self];
+    
+    
+    NSLog(@"_weburl:%@",_weburl);
+    _request =[NSURLRequest requestWithURL:[NSURL URLWithString:_weburl]];
+    //request set
+    [self.webView loadRequest:_request];
+    [self.view addSubview: self.webView];
+    
+    
+}
+- (void) webViewDidStartLoad:(UIWebView *)webView
+{
+    //创建UIActivityIndicatorView背底半透明View
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, TopSeachHigh, fDeviceWidth, fDeviceHeight)];
+    [view setTag:108];
+    [view setBackgroundColor:[UIColor blackColor]];
+    [view setAlpha:0.5];
+    [self.view addSubview:view];
+    
+    _activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 32.0f, 32.0f)];
+    [_activityIndicator setCenter:view.center];
+    [_activityIndicator setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhite];
+    [view addSubview:_activityIndicator];
+    
+    [_activityIndicator startAnimating];
+}
+
+
+- (void) webViewDidFinishLoad:(UIWebView *)webView
+{
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"test" ofType:@"js"];
+    NSString *jsString = [[NSString alloc] initWithContentsOfFile:filePath];
+    [webView stringByEvaluatingJavaScriptFromString:jsString];
+    
+    NSString *location=webView.request.URL.absoluteString;
+    
+//    if ([location isEqualToString:[NSString stringWithFormat:@"%@%@",MainUrl,@"mobile/"]]) {
+//        backflag=1;
+//    }
+//    else
+//        backflag=0;
+    [_activityIndicator stopAnimating];
+    UIView *view = (UIView*)[self.view viewWithTag:108];
+    [view removeFromSuperview];
+    if(1==[self getLoginInfo:webView])//登录成功,保存信息后返回主界面
+    {
+       
+        [self loadUserImage];
+        [self loadTableView];
+        
+    }
+    
+}
+
+-(NSInteger)getLoginInfo:(UIWebView*)myWebView{
+    // NSString *user= [myWebView stringByEvaluatingJavaScriptFromString:@"getUser();"];
+    NSString *msgStr= [myWebView stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"msg\").value"];
+    NSString *uidStr= [myWebView stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"uid\").value"];
+    NSString *nicktr= [myWebView stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"nickname\").value"];
+    NSString *userStr= [myWebView stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"username\").value"];
+    if ([msgStr isEqualToString:@"1"]){
+        [self saveLoginInfo:msgStr uid:uidStr nickname:nicktr username:userStr];
+        return 1;
+    }
+    
+    return 0;
+}
+
+-(void)saveLoginInfo:(NSString*)mymsg uid:(NSString*)myuid nickname:(NSString*)mynickname username:(NSString*)myusername{
+    NSUserDefaults *myuser = [NSUserDefaults standardUserDefaults];
+    [myuser setObject:mymsg forKey:NSUserDefaultsMsg];
+    [myuser setObject:myuid forKey:NSUserDefaultsUid];
+    [myuser setObject:mynickname forKey:NSUserDefaultsNick];
+    [myuser setObject:myusername forKey:NSUserDefaultsUsers];
+    [myuser synchronize];
+    
+    NSLog(@"msgStr：%@,uidStr：%@,nicktr：%@,userStr：%@",mymsg,myuid,mynickname,myusername);
+}
+
 
 @end

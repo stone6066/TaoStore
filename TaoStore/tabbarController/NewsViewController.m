@@ -9,15 +9,17 @@
 #import "NewsViewController.h"
 #import "PublicDefine.h"
 #import "MJRefresh.h"
+#import "SVProgressHUD.h"
+#import "orderListModel.h"
+#import "stdPubFunc.h"
+#import "DPAPI.h"
 
-
-@interface NewsViewController ()
+@interface NewsViewController ()<DPRequestDelegate>
 {
-    NSMutableArray *_tableDataSource;
-    NSString *_selectedCityName;
-    NSString *_selectedCategory;
-    NSInteger _pageindex;//显示数据的页码，每次刷新+1
-    NSString *_newsAllwaysFlash;
+    UIButton *back;
+    UIImageView *backImg;
+    NSInteger backflag;
+    NSInteger scanBtnFlag;//1拖动状态 0停止状态
 }
 @property(nonatomic,strong)UIButton *topBtn;
 @end
@@ -27,22 +29,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self loadNavTopView];
-    [self loadTableView];
-    [self loadBackToTopBtn];
-    
-    // 如果出现加载菊花和tableView重复出现的话，就设置FooterView，因为tableView默认对没有数据的列表也会显示cell
-    self.tableView.tableFooterView = [UIView new];
-    
-    
-    // Do any additional setup after loading the view.
+  
 }
 -(void)loadData{
-    _pageindex=1;
-
+  
 }
 -(void)dealloc
 {
     
+}
+
+-(void)setWeburl:(NSString *)weburl{
+    _weburl=weburl;
+}
+-(void)setTopTitle:(NSString *)topTitle{
+    _topTitle=topTitle;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -70,77 +71,24 @@
 {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
-    _pageindex=1;
-
-}
-
--(void)loadBackToTopBtn{
-    // 添加回到顶部按钮
-    _topBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _topBtn.frame = CGRectMake(fDeviceWidth-50, fDeviceHeight-MainTabbarHeight-50, 40, 40);
-    [_topBtn setBackgroundImage:[UIImage imageNamed:@"back2top.png"] forState:UIControlStateNormal];
-    [_topBtn addTarget:self action:@selector(backToTopButton) forControlEvents:UIControlEventTouchUpInside];
-    _topBtn.clipsToBounds = YES;
-    _topBtn.hidden = YES;
-    [self.view addSubview:_topBtn];
-}
-- (void)backToTopButton{
-    [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
-}
-// MARK:  计算偏移量
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    //MARK:列表滑动偏移量计算
-    CGPoint point = [self.tableView contentOffset];
+    [self createLoginRequest];
     
-    if (point.y >= self.tableView.frame.size.height) {
-        self.topBtn.hidden = NO;
-        [self.view bringSubviewToFront:self.topBtn];
-    } else {
-        self.topBtn.hidden = YES;
+}
+-(void)clickleftbtn{
+    
+    if ([_webView canGoBack]) {
+        [_webView goBack];
+        //NSLog(@"canGoBack");
     }
-}
-
--(void)loadTableView{
-    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, TopSeachHigh, fDeviceWidth, fDeviceHeight-TopSeachHigh-MainTabbarHeight)];
-    self.tableView.delegate=self;
-    self.tableView.dataSource=self;
-    self.tableView.tableFooterView = [[UIView alloc]init];
-    [self.view addSubview:self.tableView];
-    self.tableView.backgroundColor=collectionBgdColor;
-    
-   
-    _tableDataSource=[[NSMutableArray alloc]init];
-    _newsAllwaysFlash=@"0";
-    //[self setHomeLastUpdateTime];
-    // 自动刷新
-}
-
-
-
-
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return _tableDataSource.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-        return nil;
+    else
+    {
+        _weburl=[NSString stringWithFormat:@"%@%@",BaseUrl,@"paistore_m_site/customer/myorder.html"];
+        NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:_weburl]];
+        [_webView loadRequest:request];
+    }
     
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 200;
-}
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    
-    
-}
 
 
 - (void)loadNavTopView
@@ -148,13 +96,141 @@
     UIView *topSearch=[[UIView alloc]initWithFrame:CGRectMake(0, 0, fDeviceWidth, TopSeachHigh)];
     topSearch.backgroundColor=topSearchBgdColor;
     
+    
     UILabel *viewTitle=[[UILabel alloc]initWithFrame:CGRectMake(fDeviceWidth/2-30, 16, 50, 40)];
-    viewTitle.text=@"发现";
+    viewTitle.text=@"订单";
     [viewTitle setTextColor:[UIColor whiteColor]];
     [viewTitle setFont:[UIFont systemFontOfSize:20]];
     [topSearch addSubview:viewTitle];
     
+    backImg=[[UIImageView alloc]initWithFrame:CGRectMake(8, 24, 60, 24)];
+    backImg.image=[UIImage imageNamed:@"bar_back"];
+    [topSearch addSubview:backImg];
+    //返回按钮
+    back = [UIButton buttonWithType:UIButtonTypeCustom];
+    [back setFrame:CGRectMake(0, 22, 70, 42)];
+    [back addTarget:self action:@selector(clickleftbtn) forControlEvents:UIControlEventTouchUpInside];
+    [topSearch addSubview:back];
+    back.hidden=YES;
+    backImg.hidden=YES;
     [self.view addSubview:topSearch];
+}
+
+# pragma 网络请求
+- (void)createLoginRequest{
+    DPAPI *api = [[DPAPI alloc]init];
+    NSMutableDictionary *params = [[NSMutableDictionary alloc]init];
+    [params setValue:@"islogin" forKey:@"ut"];
+    [api setAllwaysFlash:@"1"];
+    NSString *myurl=[NSString stringWithFormat:@"%@%@",BaseUrl,@"paistore_m_site/interface/islogin.htm"];;
+    [api loginRequestWithURL:myurl params:params delegate:self];
+}
+
+-(void)loginrequest:(DPRequest *)request didFinishLoadingWithResult:(id)result{
+    NSDictionary *dict=result;
+    NSString *logstr=[dict objectForKey:@"result"];
+    if ([logstr isEqualToString:@"true"]) {//已经登录
+        _weburl=[NSString stringWithFormat:@"%@%@",BaseUrl,@"paistore_m_site/customer/myorder.html"];
+        
+    }
+    else
+    {
+        
+        _weburl=[NSString stringWithFormat:@"%@%@",BaseUrl,@"paistore_m_site/loginmobile.html"];
+        
+    }
+    [self loadWebView];
+}
+
+
+-(void) loadWebView{
+    //[self.view addSubview:TopView];
+    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, TopSeachHigh, fDeviceWidth, fDeviceHeight-TopSeachHigh)];
+    [self.webView setDelegate:self];
+    
+    
+    NSLog(@"_weburl:%@",_weburl);
+    _request =[NSURLRequest requestWithURL:[NSURL URLWithString:_weburl]];
+    //request set
+    [self.webView loadRequest:_request];
+    [self.view addSubview: self.webView];
+    
+    
+}
+- (void) webViewDidStartLoad:(UIWebView *)webView
+{
+    //创建UIActivityIndicatorView背底半透明View
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, TopSeachHigh, fDeviceWidth, fDeviceHeight)];
+    [view setTag:108];
+    [view setBackgroundColor:[UIColor blackColor]];
+    [view setAlpha:0.5];
+    [self.view addSubview:view];
+    
+    _activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 32.0f, 32.0f)];
+    [_activityIndicator setCenter:view.center];
+    [_activityIndicator setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhite];
+    [view addSubview:_activityIndicator];
+    
+    [_activityIndicator startAnimating];
+}
+
+
+- (void) webViewDidFinishLoad:(UIWebView *)webView
+{
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"test" ofType:@"js"];
+    NSString *jsString = [[NSString alloc] initWithContentsOfFile:filePath];
+    [webView stringByEvaluatingJavaScriptFromString:jsString];
+    
+    NSString *location=webView.request.URL.absoluteString;
+    
+   
+    //NSLog(@"%@",location);
+    if ([location isEqualToString:_weburl]) {
+        back.hidden=YES;
+        backImg.hidden=YES;
+    }
+    else
+    {
+        back.hidden=NO;
+        backImg.hidden=NO;
+    }
+    
+    [_activityIndicator stopAnimating];
+    UIView *view = (UIView*)[self.view viewWithTag:108];
+    [view removeFromSuperview];
+    if(1==[self getLoginInfo:webView])//登录成功,保存信息后返回主界面
+    {
+        
+        _weburl=[NSString stringWithFormat:@"%@%@",BaseUrl,@"paistore_m_site/customer/myorder.html"];
+        [self loadWebView];
+        
+    }
+    
+}
+
+-(NSInteger)getLoginInfo:(UIWebView*)myWebView{
+    // NSString *user= [myWebView stringByEvaluatingJavaScriptFromString:@"getUser();"];
+    NSString *msgStr= [myWebView stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"msg\").value"];
+    NSString *uidStr= [myWebView stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"uid\").value"];
+    NSString *nicktr= [myWebView stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"nickname\").value"];
+    NSString *userStr= [myWebView stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"username\").value"];
+    if ([msgStr isEqualToString:@"1"]){
+        [self saveLoginInfo:msgStr uid:uidStr nickname:nicktr username:userStr];
+        return 1;
+    }
+    
+    return 0;
+}
+
+-(void)saveLoginInfo:(NSString*)mymsg uid:(NSString*)myuid nickname:(NSString*)mynickname username:(NSString*)myusername{
+    NSUserDefaults *myuser = [NSUserDefaults standardUserDefaults];
+    [myuser setObject:mymsg forKey:NSUserDefaultsMsg];
+    [myuser setObject:myuid forKey:NSUserDefaultsUid];
+    [myuser setObject:mynickname forKey:NSUserDefaultsNick];
+    [myuser setObject:myusername forKey:NSUserDefaultsUsers];
+    [myuser synchronize];
+    
+    NSLog(@"msgStr：%@,uidStr：%@,nicktr：%@,userStr：%@",mymsg,myuid,mynickname,myusername);
 }
 
 

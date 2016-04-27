@@ -55,7 +55,7 @@
 #define HomeAdUrl1 @"http://img-ta-01.b0.upaiyun.com/14609471436342429.jpg"
 #define HomeAdUrl2 @"http://img-ta-01.b0.upaiyun.com/14609471436342429.jpg"
 #define HomeAdUrl3 @"http://img-ta-01.b0.upaiyun.com/14609471436342429.jpg"
-
+#define kImageDefaultName @"defaultImg"
 
 #define ApplicationDelegate ((AppDelegate *)[[UIApplication sharedApplication] delegate])
 

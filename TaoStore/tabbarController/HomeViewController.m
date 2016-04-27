@@ -21,6 +21,7 @@
 #import "DPAPI.h"
 #import "goodsObjModel.h"
 #import "SearchViewController.h"
+#import "ShortCutViewController.h"
 
 @interface HomeViewController ()<DPRequestDelegate>
 {
@@ -250,9 +251,6 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
                                 @"pageNo":[NSString stringWithFormat:@"%d",1],
                                 @"pageSize":[NSString stringWithFormat:@"%d",20]
                                 };
-//    NSString *PN=[NSString stringWithFormat:@"%@%d",@"&pageNo=",pageNo];POST
-//     NSString *urlstr=[NSString stringWithFormat:@"%@%@",NetUrl,@"&ut=indexVilliageGoods"];
-//   
     NSString *urlstr=[NSString stringWithFormat:@"%@%@",BaseUrl,@"paistore_m_site/interface/getmainpagegoods.htm"];
     NSLog(@"urlstr:%@",urlstr);
     [ApplicationDelegate.httpManager POST:urlstr
@@ -469,14 +467,19 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
 //UICollectionView被选中时调用的方法
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section==0) {
+    if (indexPath.section>2) {
         
-        NSLog(@"%ld---%ld---select:",indexPath.section,indexPath.item);
+        goodsObjModel * GOB=_dataSource[indexPath.section-3];
+        goodsHome *md=GOB.subcategories[indexPath.item];
+        //[self loadGoodsView:md.goodsDealUrl];
+        [self loadGoodsView:@"http://192.168.0.11:8080/paistore_m_site/item/4138.html"];
+        NSLog(@"%@",md.goodsDealUrl);
     }
     else
     {
        NSLog(@"%ld---%ld---select:",indexPath.section,indexPath.item);
     }
+    
     
     
 }
@@ -492,7 +495,16 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
 
 
 
+-(void)loadGoodsView:(NSString*)goods_url{
+    ShortCutViewController * goodsView=[[ShortCutViewController alloc]init];
+    [goodsView setWeburl:goods_url];
+    [goodsView setTopTitle:@"商品详情"];
+    goodsView.hidesBottomBarWhenPushed=YES;
+    goodsView.navigationItem.hidesBackButton=YES;
+    goodsView.view.backgroundColor = [UIColor whiteColor];
+    [self.navigationController pushViewController:goodsView animated:YES];
 
+}
 
 
 - (void)didReceiveMemoryWarning {
