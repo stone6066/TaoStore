@@ -44,7 +44,7 @@
 #define NetUrl @"http://shop.anquan365.org/nst/common.htm?"
 //#define MainUrl @"http://shop.anquan365.org/"
 #define MainToken @"shop.anquan365.org"
-#define BaseUrl @"http://192.168.0.11:8080/"
+#define BaseUrl @"http://192.168.2.112:8080/"
 #define MainTabbarColor ([UIColor whiteColor])
 #define NSUserDefaultsCityInfo @"CityInfo"
 #define NSUserDefaultsCityName @"CityName"

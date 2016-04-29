@@ -14,6 +14,7 @@
 #import "MJRefresh.h"
 #import "goodsSectionHome.h"
 #import "ShopViewCell.h"
+#import "goodsHome.h"
 
 @interface SearchViewController ()
 
@@ -345,7 +346,10 @@
 //UICollectionView被选中时调用的方法
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    goodsHome *md=_dataSource[indexPath.item];
+   
     
+    [self loadGoodsView:md.goodsDealUrl];
 }
 //返回这个UICollectionView是否可以被选择
 -(BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -353,6 +357,16 @@
     return YES;
 }
 
+-(void)loadGoodsView:(NSString*)goods_url{
+    ShortCutViewController * goodsView=[[ShortCutViewController alloc]init];
+    [goodsView setWeburl:goods_url];
+    [goodsView setTopTitle:@"商品详情"];
+    goodsView.hidesBottomBarWhenPushed=YES;
+    goodsView.navigationItem.hidesBackButton=YES;
+    goodsView.view.backgroundColor = [UIColor whiteColor];
+    [self.navigationController pushViewController:goodsView animated:YES];
+    
+}
 -(void)clickleftbtn{
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -409,7 +423,7 @@
     _seachTextF.backgroundColor = [UIColor clearColor];
     [_seachTextF setTintColor:[UIColor blueColor]];
     _seachTextF.textAlignment = UITextAutocorrectionTypeDefault;//UITextAlignmentCenter;
-    UIColor *mycolor=[UIColor whiteColor];
+   // UIColor *mycolor=[UIColor whiteColor];
 //    _seachTextF.attributedPlaceholder=[[NSAttributedString alloc]initWithString:@"搜索你喜欢的商品" attributes:@{NSForegroundColorAttributeName: mycolor}];
     _seachTextF.text=_searchToken;
     [_seachTextF setReturnKeyType:UIReturnKeySearch];

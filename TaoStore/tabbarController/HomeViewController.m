@@ -22,6 +22,7 @@
 #import "goodsObjModel.h"
 #import "SearchViewController.h"
 #import "ShortCutViewController.h"
+#import "adDataModel.h"
 
 @interface HomeViewController ()<DPRequestDelegate>
 {
@@ -73,9 +74,11 @@ static NSString * const cellIndentifier = @"menucell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     _dataSource = [NSMutableArray array];//还要再搞一次，否则_dataSource装不进去数据
+    _ADUrlArr=[[NSMutableArray alloc]init];
+    _ADHrefUrlArr=[[NSMutableArray alloc]init];
     HomeAreaImgArr=[[NSArray alloc]initWithObjects:@"http://img-ta-01.b0.upaiyun.com/14501731824942597.jpg",@"http://img-ta-01.b0.upaiyun.com/14501731913836533.jpg",@"http://img-ta-01.b0.upaiyun.com/14501732051780326.jpg",@"http://img-ta-01.b0.upaiyun.com/14501732166057415.jpg",@"http://img-ta-01.b0.upaiyun.com/14501732275660418.jpg",@"http://img-ta-01.b0.upaiyun.com/14501732363305851.jpg", nil];
     [self loadSeachView];
-    
+    [self loadADViewData];
     //NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"menuData" ofType:@"plist"];
     //_menuArray = [[NSMutableArray alloc] initWithContentsOfFile:plistPath];
     [self loadHomeCollectionView];
@@ -293,6 +296,64 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
 
 }
 
+
+
+-(void)loadADViewData{
+    
+    NSDictionary *paramDict = @{
+                                @"ut":@"indexVilliageGoods",
+                                @"pageNo":[NSString stringWithFormat:@"%d",1],
+                                @"pageSize":[NSString stringWithFormat:@"%d",20]
+                                };
+    NSString *urlstr=[NSString stringWithFormat:@"%@%@",BaseUrl,@"paistore_m_site/interface/getactimg.htm"];
+    NSLog(@"urlstr:%@",urlstr);
+    [ApplicationDelegate.httpManager POST:urlstr
+                               parameters:paramDict
+                                 progress:^(NSProgress * _Nonnull uploadProgress) {}
+                                  success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                                      //http请求状态
+                                      if (task.state == NSURLSessionTaskStateCompleted) {
+                                          NSError* error;
+                                          NSDictionary* jsonDic = [NSJSONSerialization
+                                                                   JSONObjectWithData:responseObject
+                                                                   options:kNilOptions
+                                                                   error:&error];
+                                          //NSLog(@"数据：%@",jsonDic);
+                                          NSString *suc=[jsonDic objectForKey:@"result"];
+                                          
+                                          //
+                                          if ([suc isEqualToString:@"true"]) {
+                                              //成功
+                                              adDataModel *ad=[[adDataModel alloc]init];
+                                              _ADUrlArr=[ad assignModelWithDict:jsonDic];
+                                              _ADHrefUrlArr=[ad assignHrefModelWithDict:jsonDic];
+                                              
+                                              
+                                            
+                                          } else {
+                                              //失败
+                                              [self loadADViewData];
+                                              
+                                          }
+                                          
+                                      } else {
+                                          [self loadADViewData];
+                                      }
+                                      
+                                  } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                                      //请求异常
+                                      [self loadADViewData];
+                                  }];
+    
+}
+
+-(void)setDefaultAdArr{
+    [_ADUrlArr removeAllObjects];
+    [_ADUrlArr addObject:@"http://img-ta-01.b0.upaiyun.com/14609471436342429.jpg"];
+    [_ADUrlArr addObject:@"http://img-ta-01.b0.upaiyun.com/14609471436342429.jpg"];
+    [_ADUrlArr addObject:@"http://img-ta-01.b0.upaiyun.com/14609471436342429.jpg"];
+
+}
 -(void)makeDataSource{
     NSLog(@"count:%ld",_dataSource.count);
 //    if(_dataSource.count>12)
@@ -338,14 +399,14 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
 {
     if (indexPath.section==0) {
         //轮播加载============================
-        NSMutableArray *arr=[[NSMutableArray alloc]initWithObjects:HomeAdUrl1,HomeAdUrl2,HomeAdUrl3,nil];
+//        NSMutableArray *arr=[[NSMutableArray alloc]initWithObjects:HomeAdUrl1,HomeAdUrl2,HomeAdUrl3,nil];
         //设置标题数组
         NSMutableArray *strArr = [[NSMutableArray alloc]initWithObjects:@"餐企商超",@"物流信息",@"商务服务", nil];
+//
+//        NSMutableArray *urlArr = [[NSMutableArray alloc]initWithObjects:@"http://img-ta-01.b0.upaiyun.com/14609471436342429.jpg",@"http://img-ta-01.b0.upaiyun.com/14609471436342429.jpg",@"http://img-ta-01.b0.upaiyun.com/14609471436342429.jpg",nil];
         
-        NSMutableArray *urlArr = [[NSMutableArray alloc]initWithObjects:@"http://img-ta-01.b0.upaiyun.com/14609471436342429.jpg",@"http://img-ta-01.b0.upaiyun.com/14609471436342429.jpg",@"http://img-ta-01.b0.upaiyun.com/14609471436342429.jpg",nil];
         
-        
-        _myheaderView=[[AOScrollerView alloc]initWithNameArr:arr titleArr:strArr dealUrl:urlArr height:AdHight];
+        _myheaderView=[[AOScrollerView alloc]initWithNameArr:_ADUrlArr titleArr:strArr dealUrl:_ADHrefUrlArr height:AdHight];
         //设置委托
         _myheaderView.vDelegate=self;
         
@@ -468,11 +529,10 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section>2) {
-        
         goodsObjModel * GOB=_dataSource[indexPath.section-3];
         goodsHome *md=GOB.subcategories[indexPath.item];
-        //[self loadGoodsView:md.goodsDealUrl];
-        [self loadGoodsView:@"http://192.168.0.11:8080/paistore_m_site/item/4138.html"];
+        [self loadGoodsView:md.goodsDealUrl];
+        //[self loadGoodsView:@"http://192.168.0.11:8080/paistore_m_site/item/4138.html"];
         NSLog(@"%@",md.goodsDealUrl);
     }
     else
@@ -679,10 +739,41 @@ UIImage * bundleImageImageName(NSString  *imageName)
             titleStr=@"景点门票";
             
             break;
+        case 14:
+            //strurl=@"http://m.tuniu.com/";
+            titleStr=@"酒店";
+            
+            break;
+        case 15:
+            //strurl=@"http://m.tuniu.com/";
+            titleStr=@"开锁";
+            
+            break;
+        case 16:
+            //strurl=@"http://m.tuniu.com/";
+            titleStr=@"股票";
+            
+            break;
+        case 17:
+            //strurl=@"http://m.tuniu.com/";
+            titleStr=@"飞机票";
+            
+            break;
         default:
             break;
     }
-    NSLog(@"shortCutClick:%ld",sendTag);
+    if (strurl.length>0) {
+        ShortCutViewController *shortCutView=[[ShortCutViewController alloc]init];
+        shortCutView.hidesBottomBarWhenPushed=YES;
+        shortCutView.navigationItem.hidesBackButton=YES;
+        
+        [shortCutView setWeburl:strurl];
+        [shortCutView setTopTitle:titleStr];
+        [shortCutView setScanFlag:0];
+        shortCutView.view.backgroundColor = [UIColor whiteColor];
+        [self.navigationController pushViewController:shortCutView animated:YES];
+    }
+    
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -699,7 +790,15 @@ UIImage * bundleImageImageName(NSString  *imageName)
     NSString *strurl=vid;
     NSString *titleStr=vname;
     if ([strurl length]>0) {
-        NSLog(@"跳转链接不为空");
+        ShortCutViewController *shortCutView=[[ShortCutViewController alloc]init];
+        shortCutView.hidesBottomBarWhenPushed=YES;
+        shortCutView.navigationItem.hidesBackButton=YES;
+        
+        [shortCutView setWeburl:strurl];
+        [shortCutView setTopTitle:@"活动"];
+        [shortCutView setScanFlag:0];
+        shortCutView.view.backgroundColor = [UIColor whiteColor];
+        [self.navigationController pushViewController:shortCutView animated:YES];
     }
     else{
         NSLog(@"跳转链接为空");

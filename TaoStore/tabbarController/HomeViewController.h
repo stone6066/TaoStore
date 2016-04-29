@@ -23,5 +23,7 @@
 @property (strong,nonatomic)NSMutableArray *dataSource;
 @property (nonatomic,strong)UICollectionView *collectionView;
 @property(nonatomic,copy)UITextField *seachTextF;
+@property (strong,nonatomic)NSMutableArray *ADUrlArr;
+@property (strong,nonatomic)NSMutableArray *ADHrefUrlArr;
 //@property (nonatomic,strong)UICollectionView *btncollectionView;
 @end
