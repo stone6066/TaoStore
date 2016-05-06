@@ -139,7 +139,7 @@
     //[params setValue:@"logout" forKey:@"ut"];
     [api setAllwaysFlash:@"1"];
     
-    NSString *myurl=[NSString stringWithFormat:@"%@%@",BaseUrl,@"paistore_m_site/interface/logout.htm"];
+    NSString *myurl=[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/interface/logout.htm"];
     //@"http://192.168.0.13/nst/jumpmobilelogout.htm";
     //NetUrl;
     [api loginRequestWithURL:myurl params:params delegate:self];

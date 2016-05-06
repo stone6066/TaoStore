@@ -34,7 +34,7 @@
     NSMutableDictionary *params = [[NSMutableDictionary alloc]init];
     [params setValue:@"islogin" forKey:@"ut"];
     [api setAllwaysFlash:@"1"];
-    NSString *myurl=[NSString stringWithFormat:@"%@%@",BaseUrl,@"paistore_m_site/interface/islogin.htm"];;
+    NSString *myurl=[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/interface/islogin.htm"];;
     [api loginRequestWithURL:myurl params:params delegate:self];
 }
 
@@ -49,7 +49,7 @@
     else
     {
         
-        _weburl=[NSString stringWithFormat:@"%@%@",BaseUrl,@"paistore_m_site/loginmobile.html"];
+        _weburl=[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/loginmobile.html"];
         [self loadWebView];
     }
 }
@@ -181,7 +181,7 @@
     //[params setValue:@"logout" forKey:@"ut"];
     [api setAllwaysFlash:@"1"];
     
-    NSString *myurl=[NSString stringWithFormat:@"%@%@",BaseUrl,@"paistore_m_site/interface/logout.htm"];
+    NSString *myurl=[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/interface/logout.htm"];
     //@"http://192.168.0.13/nst/jumpmobilelogout.htm";
     //NetUrl;
     [api typeRequestWithURL:myurl params:params delegate:self];
@@ -191,7 +191,7 @@
     NSString *logstr=[dict objectForKey:@"result"];
     if ([logstr isEqualToString:@"true"]) {//退出登录成功
         [self.navigationController popViewControllerAnimated:YES];
-        _weburl=[NSString stringWithFormat:@"%@%@",BaseUrl,@"paistore_m_site/loginmobile.html"];
+        _weburl=[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/loginmobile.html"];
         [self loadWebView];
     }
 

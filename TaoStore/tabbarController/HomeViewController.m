@@ -172,19 +172,23 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
         // 进入刷新状态后会自动调用这个block
     }];
    
-    
     // 上拉刷新
     self.collectionView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         // 进入刷新状态后会自动调用这个block
         if (_dataSource.count>0) {
-             _pageindex+=1;
+            _pageindex+=1;
+            [self loadMoreCollectionViewData:_pageindex];
         }
         else
-           _pageindex=1;
-        [self loadMoreCollectionViewData:_pageindex];
+        {
+            _pageindex=1;
+            [self loadCollectionViewData:_pageindex];
+        }
+        
         // 结束刷新
         [weakSelf.collectionView.mj_footer endRefreshing];
     }];
+
     
    
 }
@@ -201,7 +205,7 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
     //    NSString *PN=[NSString stringWithFormat:@"%@%d",@"&pageNo=",pageNo];POST
     //     NSString *urlstr=[NSString stringWithFormat:@"%@%@",NetUrl,@"&ut=indexVilliageGoods"];
     //
-    NSString *urlstr=[NSString stringWithFormat:@"%@%@%@%ld",BaseUrl,@"paistore_m_site/interface/getgoodsnew.htm?pageSize=20",@"&pageNo=",pageNo];
+    NSString *urlstr=[NSString stringWithFormat:@"%@%@%@%d",BaseUrl,@"mobile/interface/getgoodsnew.htm?pageSize=20",@"&pageNo=",pageNo];
     //NSLog(@"urlstr:%@",urlstr);
     [ApplicationDelegate.httpManager POST:urlstr
                                parameters:paramDict
@@ -222,9 +226,14 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
                                               //成功
                                               goodsSectionHome *gHome=[[goodsSectionHome alloc]init];
                                               NSArray*tmpArr=[gHome assignGoodsWithDict:jsonDic];
-                                              goodsObjModel *GOB=_dataSource[_dataSource.count-1];
-                                              [GOB.subcategories addObjectsFromArray:tmpArr];
-                                              [_dataSource replaceObjectAtIndex:_dataSource.count-1 withObject:GOB];
+                                              if (_dataSource.count>1) {
+                                                   goodsObjModel *GOB=_dataSource[_dataSource.count-1];
+                                                  [GOB.subcategories addObjectsFromArray:tmpArr];
+                                                  [_dataSource replaceObjectAtIndex:_dataSource.count-1 withObject:GOB];
+                                              }
+                                             
+                                              
+                                              
                                               [self.collectionView reloadData];
                                               
                                               [SVProgressHUD showSuccessWithStatus:k_Success_Load];
@@ -254,7 +263,7 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
                                 @"pageNo":[NSString stringWithFormat:@"%d",1],
                                 @"pageSize":[NSString stringWithFormat:@"%d",20]
                                 };
-    NSString *urlstr=[NSString stringWithFormat:@"%@%@",BaseUrl,@"paistore_m_site/interface/getmainpagegoods.htm"];
+    NSString *urlstr=[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/interface/getmainpagegoods.htm"];
     NSLog(@"urlstr:%@",urlstr);
     [ApplicationDelegate.httpManager POST:urlstr
                                parameters:paramDict
@@ -305,7 +314,7 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
                                 @"pageNo":[NSString stringWithFormat:@"%d",1],
                                 @"pageSize":[NSString stringWithFormat:@"%d",20]
                                 };
-    NSString *urlstr=[NSString stringWithFormat:@"%@%@",BaseUrl,@"paistore_m_site/interface/getactimg.htm"];
+    NSString *urlstr=[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/interface/getactimg.htm"];
     NSLog(@"urlstr:%@",urlstr);
     [ApplicationDelegate.httpManager POST:urlstr
                                parameters:paramDict
