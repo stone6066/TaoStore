@@ -45,6 +45,7 @@
 //#define MainUrl @"http://shop.anquan365.org/"
 #define MainToken @"shop.anquan365.org"
 #define BaseUrl @"http://shop.anquan365.org/"
+#define BasePath @"mobile/"
 #define MainTabbarColor ([UIColor whiteColor])
 #define NSUserDefaultsCityInfo @"CityInfo"
 #define NSUserDefaultsCityName @"CityName"

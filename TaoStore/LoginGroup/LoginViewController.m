@@ -221,7 +221,7 @@
     
     NSString *location=webView.request.URL.absoluteString;
     
-    if ([location isEqualToString:[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/"]]) {
+    if ([location isEqualToString:[NSString stringWithFormat:@"%@%@",BaseUrl,BasePath]]) {
         backflag=1;
     }
     else

@@ -318,7 +318,7 @@ static NSString * const mySortIdentifier = @"MainCell";
     //    NSString *PN=[NSString stringWithFormat:@"%@%d",@"&pageNo=",pageNo];POST
     //     NSString *urlstr=[NSString stringWithFormat:@"%@%@",NetUrl,@"&ut=indexVilliageGoods"];
     //
-    NSString *urlstr=[NSString stringWithFormat:@"%@%@%@%@%@%@%@%ld",BaseUrl,@"mobile/interface/getgoodsbycat.htm?catid=",_sortListId,@"&sort=",sType,@"&pageSize=20",@"&pageNo=",pageno];
+    NSString *urlstr=[NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%ld",BaseUrl,BasePath,@"interface/getgoodsbycat.htm?catid=",_sortListId,@"&sort=",sType,@"&pageSize=20",@"&pageNo=",pageno];
     //NSLog(@"urlstr:%@",urlstr);
     [ApplicationDelegate.httpManager POST:urlstr
                                parameters:paramDict

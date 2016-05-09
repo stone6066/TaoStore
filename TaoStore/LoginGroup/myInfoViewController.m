@@ -85,9 +85,7 @@
     
     UIImageView *iconImg=[[UIImageView alloc]initWithFrame:CGRectMake(10, 60, 70, 70)];
     [iconImg sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/images/avatar.jpg"]]];
-   //[iconImg sd_setImageWithStr:[NSString stringWithFormat:@"%@%@",MainUrl,@"mobile/images/avatar.jpg"]];
-    
-    iconImg.layer.masksToBounds = YES;
+      iconImg.layer.masksToBounds = YES;
     iconImg.layer.cornerRadius = CGRectGetHeight(iconImg.bounds)/2;
 //    注意这里的ImageView 的宽和高都要相等
 //    layer.cornerRadiu 设置的是圆角的半径
@@ -139,7 +137,7 @@
     //[params setValue:@"logout" forKey:@"ut"];
     [api setAllwaysFlash:@"1"];
     
-    NSString *myurl=[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/interface/logout.htm"];
+    NSString *myurl=[NSString stringWithFormat:@"%@%@%@",BaseUrl,BasePath,@"interface/logout.htm"];
     //@"http://192.168.0.13/nst/jumpmobilelogout.htm";
     //NetUrl;
     [api loginRequestWithURL:myurl params:params delegate:self];
@@ -186,23 +184,23 @@
     switch (indexPath.row) {
         case 0:
             
-            [self popMobileInfoView:[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/customer/myorder.html"] viewTitle:@"我的订单"];
+            [self popMobileInfoView:[NSString stringWithFormat:@"%@%@%@",BaseUrl,BasePath,@"customer/myorder.html"] viewTitle:@"我的订单"];
             break;
         case 1:
             
-            [self popMobileInfoView:[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/customer/myorder-0-1.html"] viewTitle:@"待付款订单"];
+            [self popMobileInfoView:[NSString stringWithFormat:@"%@%@%@",BaseUrl,BasePath,@"customer/myorder-0-1.html"] viewTitle:@"待付款订单"];
             break;
         case 2:
             
-            [self popMobileInfoView:[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/customer/myorder-3-1.html"] viewTitle:@"已发货物流查询"];
+            [self popMobileInfoView:[NSString stringWithFormat:@"%@%@%@",BaseUrl,BasePath,@"customer/myorder-3-1.html"] viewTitle:@"已发货物流查询"];
             break;
         case 3:
             
-            [self popMobileInfoView:[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/customer/address.html"] viewTitle:@"收货地址"];
+            [self popMobileInfoView:[NSString stringWithFormat:@"%@%@%@",BaseUrl,BasePath,@"customer/address.html"] viewTitle:@"收货地址"];
             break;
         case 4:
             
-            [self popMobileInfoView:[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/customer/personinfo.html"] viewTitle:@"个人资料"];
+            [self popMobileInfoView:[NSString stringWithFormat:@"%@%@%@",BaseUrl,BasePath,@"customer/personinfo.html"] viewTitle:@"个人资料"];
             break;
         case 5://我的发布
             [self popMyPublicView];

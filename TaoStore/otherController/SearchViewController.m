@@ -254,7 +254,7 @@
     //    NSString *PN=[NSString stringWithFormat:@"%@%d",@"&pageNo=",pageNo];POST
     //     NSString *urlstr=[NSString stringWithFormat:@"%@%@",NetUrl,@"&ut=indexVilliageGoods"];
     //
-    NSString *urlstr=[NSString stringWithFormat:@"%@%@%@%@%@%@%@%ld",BaseUrl,@"mobile/interface/searchgoods.htm?title=",_searchToken,@"&sort=",sType,@"&pb.pageSize=20",@"&pb.pageNo=",(long)pageno];
+    NSString *urlstr=[NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%ld",BaseUrl,BasePath,@"interface/searchgoods.htm?title=",_searchToken,@"&sort=",sType,@"&pb.pageSize=20",@"&pb.pageNo=",(long)pageno];
     urlstr = [urlstr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSLog(@"urlstr:%@",urlstr);
     [ApplicationDelegate.httpManager POST:urlstr

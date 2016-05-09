@@ -212,7 +212,7 @@ UIImage * sbundleImageImageName(NSString  *imageName)
                                 @"pageSize":[NSString stringWithFormat:@"%d",20]
                                 };
     
-    NSString *urlstr=[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/interface/getgoodscate.htm"];
+    NSString *urlstr=[NSString stringWithFormat:@"%@%@%@",BaseUrl,BasePath,@"interface/getgoodscate.htm"];
     NSLog(@"urlstr:%@",urlstr);
     [ApplicationDelegate.httpManager POST:urlstr
                               parameters:paramDict

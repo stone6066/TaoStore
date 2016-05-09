@@ -82,7 +82,7 @@
     }
     else
     {
-        _weburl=[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/customer/myorder.html"];
+        _weburl=[NSString stringWithFormat:@"%@%@%@",BaseUrl,BasePath,@"customer/myorder.html"];
         NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:_weburl]];
         [_webView loadRequest:request];
     }
@@ -122,7 +122,7 @@
     NSMutableDictionary *params = [[NSMutableDictionary alloc]init];
     [params setValue:@"islogin" forKey:@"ut"];
     [api setAllwaysFlash:@"1"];
-    NSString *myurl=[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/interface/islogin.htm"];;
+    NSString *myurl=[NSString stringWithFormat:@"%@%@%@",BaseUrl,BasePath,@"interface/islogin.htm"];;
     [api loginRequestWithURL:myurl params:params delegate:self];
 }
 
@@ -130,13 +130,13 @@
     NSDictionary *dict=result;
     NSString *logstr=[dict objectForKey:@"result"];
     if ([logstr isEqualToString:@"true"]) {//已经登录
-        _weburl=[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/customer/myorder.html"];
+        _weburl=[NSString stringWithFormat:@"%@%@%@",BaseUrl,BasePath,@"customer/myorder.html"];
         
     }
     else
     {
         
-        _weburl=[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/loginmobile.html"];
+        _weburl=[NSString stringWithFormat:@"%@%@%@",BaseUrl,BasePath,@"loginmobile.html"];
         
     }
     [self loadWebView];
@@ -201,7 +201,7 @@
     if(1==[self getLoginInfo:webView])//登录成功,保存信息后返回主界面
     {
         
-        _weburl=[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/customer/myorder.html"];
+        _weburl=[NSString stringWithFormat:@"%@%@%@",BaseUrl,BasePath,@"customer/myorder.html"];
         [self loadWebView];
         
     }

@@ -57,7 +57,7 @@
     self.view.backgroundColor=[UIColor whiteColor];
     webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 60, fDeviceWidth, fDeviceHeight-TopSeachHigh-10)];
     [webView setDelegate:self];
-    NSString  *urlstr=[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/myshoppingmcart.html"];
+    NSString  *urlstr=[NSString stringWithFormat:@"%@%@%@",BaseUrl,BasePath,@"myshoppingmcart.html"];
     NSLog(@"购物车：%@",urlstr);
     NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:urlstr]];
     [self.view addSubview: webView];

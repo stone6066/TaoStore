@@ -205,7 +205,7 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
     //    NSString *PN=[NSString stringWithFormat:@"%@%d",@"&pageNo=",pageNo];POST
     //     NSString *urlstr=[NSString stringWithFormat:@"%@%@",NetUrl,@"&ut=indexVilliageGoods"];
     //
-    NSString *urlstr=[NSString stringWithFormat:@"%@%@%@%d",BaseUrl,@"mobile/interface/getgoodsnew.htm?pageSize=20",@"&pageNo=",pageNo];
+    NSString *urlstr=[NSString stringWithFormat:@"%@%@%@%@%ld",BaseUrl,BasePath,@"interface/getgoodsnew.htm?pageSize=20",@"&pageNo=",(long)pageNo];
     //NSLog(@"urlstr:%@",urlstr);
     [ApplicationDelegate.httpManager POST:urlstr
                                parameters:paramDict
@@ -263,7 +263,7 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
                                 @"pageNo":[NSString stringWithFormat:@"%d",1],
                                 @"pageSize":[NSString stringWithFormat:@"%d",20]
                                 };
-    NSString *urlstr=[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/interface/getmainpagegoods.htm"];
+    NSString *urlstr=[NSString stringWithFormat:@"%@%@%@",BaseUrl,BasePath,@"interface/getmainpagegoods.htm"];
     NSLog(@"urlstr:%@",urlstr);
     [ApplicationDelegate.httpManager POST:urlstr
                                parameters:paramDict
@@ -314,7 +314,7 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
                                 @"pageNo":[NSString stringWithFormat:@"%d",1],
                                 @"pageSize":[NSString stringWithFormat:@"%d",20]
                                 };
-    NSString *urlstr=[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/interface/getactimg.htm"];
+    NSString *urlstr=[NSString stringWithFormat:@"%@%@%@",BaseUrl,BasePath,@"interface/getactimg.htm"];
     NSLog(@"urlstr:%@",urlstr);
     [ApplicationDelegate.httpManager POST:urlstr
                                parameters:paramDict
@@ -459,8 +459,54 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
     //[cell sizeToFit];
 }
 
+-(void)loadAreasView:(NSString*)goods_url viewTitle:(NSString *)titleStr{
+    ShortCutViewController * goodsView=[[ShortCutViewController alloc]init];
+    [goodsView setWeburl:goods_url];
+    [goodsView setTopTitle:titleStr];
+    goodsView.hidesBottomBarWhenPushed=YES;
+    goodsView.navigationItem.hidesBackButton=YES;
+    goodsView.view.backgroundColor = [UIColor whiteColor];
+    [self.navigationController pushViewController:goodsView animated:YES];
+    
+}
+
+
 -(void)AreaBtnClick:(NSInteger)sendTag{
-    NSLog(@"AreaBtnClick:%ld",sendTag);
+    NSString *url=@"";
+    NSString *titleTmp=@"";
+    
+    switch (sendTag) {
+        case 1:
+            url=[NSString stringWithFormat:@"%@%@%@",BaseUrl,BasePath,@"cates-333.html"];
+            titleTmp=@"银川优选";
+        break;
+        case 2:
+            url=[NSString stringWithFormat:@"%@%@%@",BaseUrl,BasePath,@"cates-332.html"];
+            titleTmp=@"中宁优选";
+            break;
+        case 3:
+            url=[NSString stringWithFormat:@"%@%@%@",BaseUrl,BasePath,@"cates-335.html"];
+            titleTmp=@"永宁优选";
+            break;
+        case 4:
+            url=[NSString stringWithFormat:@"%@%@%@",BaseUrl,BasePath,@"cates-334.html"];
+            titleTmp=@"中卫优选";
+            break;
+        case 5:
+            url=[NSString stringWithFormat:@"%@%@%@",BaseUrl,BasePath,@"cates-331.html"];
+            titleTmp=@"吴忠优选";
+            break;
+        case 6:
+            url=[NSString stringWithFormat:@"%@%@%@",BaseUrl,BasePath,@"cates-326.html"];
+            titleTmp=@"固原优选";
+            break;
+            
+        default:
+            url=[NSString stringWithFormat:@"%@%@%@",BaseUrl,BasePath,@"cates-333.html"];
+            titleTmp=@"银川优选";
+            break;
+    }
+    [self loadAreasView:url viewTitle:titleTmp];
 }
 //头部显示的内容_mySeparateView
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {

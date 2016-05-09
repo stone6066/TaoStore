@@ -115,7 +115,7 @@
 {
     NSString *location=webView.request.URL.absoluteString;
     NSLog(@"webViewDidFinishLoad:%@",location);
-    NSString *logUrl= [NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/login.html"];
+    NSString *logUrl= [NSString stringWithFormat:@"%@%@%@",BaseUrl,BasePath,@"login.html"];
     if([location rangeOfString:logUrl].location !=NSNotFound)//要从商城登录
     {
         [self loadLoginView];
@@ -124,7 +124,7 @@
     else{
    
     
-        if ([location isEqualToString:[NSString stringWithFormat:@"%@%@",BaseUrl,@"mobile/"]]) {
+        if ([location isEqualToString:[NSString stringWithFormat:@"%@%@",BaseUrl,BasePath]]) {
             backflag=1;
         }
         else
@@ -139,16 +139,6 @@
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-    NSString *location=webView.request.URL.absoluteString;
-    //NSLog(@"shouldStartLoadWithRequest:%@",location);
-   // NSLog(@"shouldStartLoadWithRequest");
-//    NSString *logUrl= [NSString stringWithFormat:@"%@%@",MainUrl,@"mobile/login.html"];
-//    if([location rangeOfString:logUrl].location !=NSNotFound)//要从商城登录
-//    {
-//        [self loadLoginView];
-//        
-//    }
-    
     return YES;//return NO 的时候，webview就不会加载页面了
 }
 -(void)clickleftbtn
