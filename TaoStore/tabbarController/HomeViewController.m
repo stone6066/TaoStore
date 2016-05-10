@@ -255,9 +255,6 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
 }
 -(void)loadCollectionViewData:(NSInteger)pageNo{
     [SVProgressHUD showWithStatus:k_Status_Load];
-    
-    //NSString *urlStr = [NSString stringWithFormat:@"%@%@",NetUrl,@"UsrStore.asmx/GetPartsList"];
-    
     NSDictionary *paramDict = @{
                                 @"ut":@"indexVilliageGoods",
                                 @"pageNo":[NSString stringWithFormat:@"%d",1],
@@ -286,7 +283,7 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
                                              _dataSource=[gHome assignWithDict:jsonDic];
                                              //[_dataSource addObjectsFromArray:arrtmp];
                                               [self.collectionView reloadData];
-                                              
+                                              //[SVProgressHUD dismiss];
                                               [SVProgressHUD showSuccessWithStatus:k_Success_Load];
                                           } else {
                                               //失败
@@ -739,7 +736,7 @@ UIImage * bundleImageImageName(NSString  *imageName)
         
         [shortCutView setWeburl:qrString];
         [shortCutView setTopTitle:@"商品详情"];
-        [shortCutView setScanFlag:1];
+        [shortCutView setScanFlag:0];
         shortCutView.view.backgroundColor = [UIColor whiteColor];
         [self.navigationController pushViewController:shortCutView animated:YES];
         

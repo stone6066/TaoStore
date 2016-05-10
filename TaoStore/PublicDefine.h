@@ -41,11 +41,17 @@
 #define NSUserDefaultsUsers @"userName"
 #define NSUserIsLogin @"IsLogin"
 
-#define NetUrl @"http://shop.anquan365.org/nst/common.htm?"
+//#define NetUrl @"http://shop.anquan365.org/nst/common.htm?"
 //#define MainUrl @"http://shop.anquan365.org/"
-#define MainToken @"shop.anquan365.org"
-#define BaseUrl @"http://shop.anquan365.org/"
+#define MainToken @"tao-yx.com"
+#define BaseUrl @"http://tao-yx.com/"
+//"http://shop.anquan365.org/"
+//"http://tao-yx.com/"
+//@"http://192.168.0.65:8080/"
+//@"http://shop.anquan365.org/"
 #define BasePath @"mobile/"
+//@"paistore_m_site/"
+//
 #define MainTabbarColor ([UIColor whiteColor])
 #define NSUserDefaultsCityInfo @"CityInfo"
 #define NSUserDefaultsCityName @"CityName"

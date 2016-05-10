@@ -29,11 +29,40 @@
     
     [self loadSeachView];
     [self loadCollectionView];
+    [self loadBackToTopBtn];
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide:)];
     //设置成NO表示当前控件响应后会传播到其他控件上，默认为YES。
     tapGestureRecognizer.cancelsTouchesInView = NO;
     //将触摸事件添加到当前view
     [self.view addGestureRecognizer:tapGestureRecognizer];
+}
+
+
+-(void)loadBackToTopBtn{
+    // 添加回到顶部按钮
+    _topBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _topBtn.frame = CGRectMake(fDeviceWidth-50, fDeviceHeight-TopSeachHigh-40, 40, 40);
+    [_topBtn setBackgroundImage:[UIImage imageNamed:@"back2top.png"] forState:UIControlStateNormal];
+    [_topBtn addTarget:self action:@selector(backToTopButton) forControlEvents:UIControlEventTouchUpInside];
+    _topBtn.clipsToBounds = YES;
+    _topBtn.hidden = YES;
+    [self.view addSubview:_topBtn];
+}
+- (void)backToTopButton{
+    [self.collectionView setContentOffset:CGPointMake(0, 0) animated:YES];
+}
+// MARK:  计算偏移量
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    //MARK:列表滑动偏移量计算
+    CGPoint point = [self.collectionView contentOffset];
+    
+    if (point.y >= self.collectionView.frame.size.height) {
+        self.topBtn.hidden = NO;
+        [self.view bringSubviewToFront:self.topBtn];
+    } else {
+        self.topBtn.hidden = YES;
+    }
 }
 
 -(void)initTopImg:(UIView*)backView{

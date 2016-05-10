@@ -202,6 +202,7 @@
     {
         
         _weburl=[NSString stringWithFormat:@"%@%@%@",BaseUrl,BasePath,@"customer/myorder.html"];
+        NSLog(@"订单%@",_weburl);
         [self loadWebView];
         
     }

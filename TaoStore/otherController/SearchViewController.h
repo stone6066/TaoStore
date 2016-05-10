@@ -26,4 +26,6 @@
 
 @property(nonatomic,strong)NSMutableArray *upImgArr;
 @property(nonatomic,strong)NSMutableArray *downImgArr;
+
+@property(nonatomic,strong)UIButton *topBtn;
 @end

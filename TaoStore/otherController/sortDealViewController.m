@@ -13,6 +13,9 @@
 #import "ShopViewCell.h"
 #import "SVProgressHUD.h"
 #import "goodsSectionHome.h"
+#import "goodsHome.h"
+#import "ShortCutViewController.h"
+
 @interface sortDealViewController ()
 {
     NSMutableArray *_dataSource;
@@ -410,7 +413,9 @@ static NSString * const mySortIdentifier = @"MainCell";
 //UICollectionView被选中时调用的方法
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    
+    goodsHome *md=_dataSource[indexPath.item];
+    [self loadGoodsView:md.goodsDealUrl];
 }
 //返回这个UICollectionView是否可以被选择
 -(BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -421,7 +426,16 @@ static NSString * const mySortIdentifier = @"MainCell";
 #pragma mark - 刷新控件的代理方法
 #pragma mark 开始进入刷新状态
 
-
+-(void)loadGoodsView:(NSString*)goods_url{
+    ShortCutViewController * goodsView=[[ShortCutViewController alloc]init];
+    [goodsView setWeburl:goods_url];
+    [goodsView setTopTitle:@"商品详情"];
+    goodsView.hidesBottomBarWhenPushed=YES;
+    goodsView.navigationItem.hidesBackButton=YES;
+    goodsView.view.backgroundColor = [UIColor whiteColor];
+    [self.navigationController pushViewController:goodsView animated:YES];
+    
+}
 
 -(void)dealloc
 {
