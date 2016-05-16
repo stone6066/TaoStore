@@ -25,5 +25,6 @@
 @property(nonatomic,copy)UITextField *seachTextF;
 @property (strong,nonatomic)NSMutableArray *ADUrlArr;
 @property (strong,nonatomic)NSMutableArray *ADHrefUrlArr;
+@property (nonatomic,assign)NSInteger HomeSeachType;
 //@property (nonatomic,strong)UICollectionView *btncollectionView;
 @end

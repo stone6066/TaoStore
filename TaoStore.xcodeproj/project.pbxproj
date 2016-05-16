@@ -91,6 +91,7 @@
 		897C56991CC0868E000F93F5 /* sortDealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 897C56981CC0868E000F93F5 /* sortDealViewController.m */; };
 		899C77D01CCF5D4C003D3466 /* test.js in Resources */ = {isa = PBXBuildFile; fileRef = 899C77CF1CCF5D4C003D3466 /* test.js */; };
 		89A95BEE1CC4A32100FDFCB3 /* ADCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A95BED1CC4A32100FDFCB3 /* ADCollectionViewCell.m */; };
+		89AF75771CE4705300BD64E1 /* SerachShopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AF75761CE4705300BD64E1 /* SerachShopViewController.m */; };
 		89C755F21CC716DC0017EBC8 /* ShortCutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C755F11CC716DC0017EBC8 /* ShortCutViewController.m */; };
 		89C755F61CC717680017EBC8 /* SYQRCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C755F51CC717680017EBC8 /* SYQRCodeViewController.m */; };
 		89C755FC1CC7198B0017EBC8 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C755F91CC7198B0017EBC8 /* LoginViewController.m */; };
@@ -242,6 +243,8 @@
 		899C77CF1CCF5D4C003D3466 /* test.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = test.js; sourceTree = "<group>"; };
 		89A95BEC1CC4A32100FDFCB3 /* ADCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADCollectionViewCell.h; sourceTree = "<group>"; };
 		89A95BED1CC4A32100FDFCB3 /* ADCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADCollectionViewCell.m; sourceTree = "<group>"; };
+		89AF75751CE4705300BD64E1 /* SerachShopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SerachShopViewController.h; sourceTree = "<group>"; };
+		89AF75761CE4705300BD64E1 /* SerachShopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SerachShopViewController.m; sourceTree = "<group>"; };
 		89C755F01CC716DC0017EBC8 /* ShortCutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShortCutViewController.h; sourceTree = "<group>"; };
 		89C755F11CC716DC0017EBC8 /* ShortCutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShortCutViewController.m; sourceTree = "<group>"; };
 		89C755F41CC717680017EBC8 /* SYQRCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYQRCodeViewController.h; sourceTree = "<group>"; };
@@ -542,6 +545,8 @@
 				897C56981CC0868E000F93F5 /* sortDealViewController.m */,
 				8977A58E1CCDDD7C002CFE4A /* SearchViewController.h */,
 				8977A58F1CCDDD7C002CFE4A /* SearchViewController.m */,
+				89AF75751CE4705300BD64E1 /* SerachShopViewController.h */,
+				89AF75761CE4705300BD64E1 /* SerachShopViewController.m */,
 			);
 			path = otherController;
 			sourceTree = "<group>";
@@ -940,6 +945,7 @@
 				8961B65D1CC9C29700857231 /* goodsObjModel.m in Sources */,
 				897C56901CC079E4000F93F5 /* MultilevelMenu.m in Sources */,
 				89C7560C1CC769410017EBC8 /* DPRequest.m in Sources */,
+				89AF75771CE4705300BD64E1 /* SerachShopViewController.m in Sources */,
 				89C755F21CC716DC0017EBC8 /* ShortCutViewController.m in Sources */,
 				897C56881CC079E4000F93F5 /* dealModel.m in Sources */,
 				897C56891CC079E4000F93F5 /* sortModel.m in Sources */,
@@ -1087,11 +1093,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = TaoStore/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.tianan-apple.TaoStore";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1104,11 +1111,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = TaoStore/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.tianan-apple.TaoStore";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

@@ -86,7 +86,7 @@
 /**
  *完成类型
  */
-#define k_Success_Load               @"加载完成"
+#define k_Success_Load               @"完毕"
 
 
 /*

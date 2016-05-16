@@ -285,7 +285,7 @@
     //
     NSString *urlstr=[NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%ld",BaseUrl,BasePath,@"interface/searchgoods.htm?title=",_searchToken,@"&sort=",sType,@"&pb.pageSize=20",@"&pb.pageNo=",(long)pageno];
     urlstr = [urlstr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSLog(@"urlstr:%@",urlstr);
+    NSLog(@"ser_urlstr:%@",urlstr);
     [ApplicationDelegate.httpManager POST:urlstr
                                parameters:paramDict
                                  progress:^(NSProgress * _Nonnull uploadProgress) {}
@@ -297,7 +297,7 @@
                                                                    JSONObjectWithData:responseObject
                                                                    options:kNilOptions
                                                                    error:&error];
-                                          //NSLog(@"数据：%@",jsonDic);
+                                          NSLog(@"ser数据：%@",jsonDic);
                                           NSString *suc=[jsonDic objectForKey:@"result"];
                                           
                                           //

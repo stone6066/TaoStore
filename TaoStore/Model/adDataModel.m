@@ -17,8 +17,13 @@
         for (NSDictionary *dict1 in dictArray) {
             
             NSString * imgurl=[dict1 objectForKey:@"imgurl"];
-            
             [arr addObject:imgurl];
+        }
+        
+    }
+    if (dictArray.count<2) {
+        if (arr.count>0) {
+            [arr addObject:arr[0]];
         }
         
     }
@@ -34,6 +39,12 @@
             NSString * hrefurl=[dict1 objectForKey:@"href"];
             
             [arr addObject:hrefurl];
+        }
+        
+    }
+    if (dictArray.count<2) {
+        if (arr.count>0) {
+            [arr addObject:arr[0]];
         }
         
     }

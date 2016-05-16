@@ -41,7 +41,8 @@ UITextField * _seachTextF;
 {
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     [super viewWillAppear:animated];
-    
+    [self loadsortSeachView];
+    [self loadSortData];
     
 }
 
@@ -69,8 +70,7 @@ UITextField * _seachTextF;
     //将触摸事件添加到当前view
     [self.view addGestureRecognizer:tapGestureRecognizer];
     
-    [self loadsortSeachView];
-    [self loadSortData];
+    
     
     // Do any additional setup after loading the view.
 }
@@ -213,7 +213,7 @@ UIImage * sbundleImageImageName(NSString  *imageName)
                                 };
     
     NSString *urlstr=[NSString stringWithFormat:@"%@%@%@",BaseUrl,BasePath,@"interface/getgoodscate.htm"];
-    NSLog(@"urlstr:%@",urlstr);
+    NSLog(@"asorturlstr:%@",urlstr);
     [ApplicationDelegate.httpManager POST:urlstr
                               parameters:paramDict
                                 progress:^(NSProgress * _Nonnull uploadProgress) {}

@@ -23,6 +23,7 @@
 #import "SearchViewController.h"
 #import "ShortCutViewController.h"
 #import "adDataModel.h"
+#import "SerachShopViewController.h"
 
 @interface HomeViewController ()<DPRequestDelegate>
 {
@@ -73,17 +74,18 @@ static NSString * const cellIndentifier = @"menucell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _HomeSeachType=0;//搜商品
     _dataSource = [NSMutableArray array];//还要再搞一次，否则_dataSource装不进去数据
     _ADUrlArr=[[NSMutableArray alloc]init];
     _ADHrefUrlArr=[[NSMutableArray alloc]init];
     HomeAreaImgArr=[[NSArray alloc]initWithObjects:@"http://img-ta-01.b0.upaiyun.com/14501731824942597.jpg",@"http://img-ta-01.b0.upaiyun.com/14501731913836533.jpg",@"http://img-ta-01.b0.upaiyun.com/14501732051780326.jpg",@"http://img-ta-01.b0.upaiyun.com/14501732166057415.jpg",@"http://img-ta-01.b0.upaiyun.com/14501732275660418.jpg",@"http://img-ta-01.b0.upaiyun.com/14501732363305851.jpg", nil];
     [self loadSeachView];
-    [self loadADViewData];
+    
     //NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"menuData" ofType:@"plist"];
     //_menuArray = [[NSMutableArray alloc] initWithContentsOfFile:plistPath];
+    
     [self loadHomeCollectionView];
     [self loadBackToTopBtn];
-    
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide:)];
     //设置成NO表示当前控件响应后会传播到其他控件上，默认为YES。
     tapGestureRecognizer.cancelsTouchesInView = NO;
@@ -282,7 +284,8 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
                                              goodsSectionHome *gHome=[[goodsSectionHome alloc]init];
                                              _dataSource=[gHome assignWithDict:jsonDic];
                                              //[_dataSource addObjectsFromArray:arrtmp];
-                                              [self.collectionView reloadData];
+                                             [self loadADViewData];
+                                             // [self.collectionView reloadData];
                                               //[SVProgressHUD dismiss];
                                               [SVProgressHUD showSuccessWithStatus:k_Success_Load];
                                           } else {
@@ -312,7 +315,7 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
                                 @"pageSize":[NSString stringWithFormat:@"%d",20]
                                 };
     NSString *urlstr=[NSString stringWithFormat:@"%@%@%@",BaseUrl,BasePath,@"interface/getactimg.htm"];
-    NSLog(@"urlstr:%@",urlstr);
+    NSLog(@"adurlstr:%@",urlstr);
     [ApplicationDelegate.httpManager POST:urlstr
                                parameters:paramDict
                                  progress:^(NSProgress * _Nonnull uploadProgress) {}
@@ -333,22 +336,22 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
                                               adDataModel *ad=[[adDataModel alloc]init];
                                               _ADUrlArr=[ad assignModelWithDict:jsonDic];
                                               _ADHrefUrlArr=[ad assignHrefModelWithDict:jsonDic];
-                                              
-                                              
+                                              //[self loadADViewData];
+                                              [self.collectionView reloadData];
                                             
                                           } else {
                                               //失败
-                                              [self loadADViewData];
+                                              
                                               
                                           }
                                           
                                       } else {
-                                          [self loadADViewData];
+                                          //[self loadADViewData];
                                       }
                                       
                                   } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                                       //请求异常
-                                      [self loadADViewData];
+                                      //[self loadADViewData];
                                   }];
     
 }
@@ -405,13 +408,9 @@ static NSString * const aoScrollid = @"aoScrollid";//轮播页面
 {
     if (indexPath.section==0) {
         //轮播加载============================
-//        NSMutableArray *arr=[[NSMutableArray alloc]initWithObjects:HomeAdUrl1,HomeAdUrl2,HomeAdUrl3,nil];
+
         //设置标题数组
         NSMutableArray *strArr = [[NSMutableArray alloc]initWithObjects:@"餐企商超",@"物流信息",@"商务服务", nil];
-//
-//        NSMutableArray *urlArr = [[NSMutableArray alloc]initWithObjects:@"http://img-ta-01.b0.upaiyun.com/14609471436342429.jpg",@"http://img-ta-01.b0.upaiyun.com/14609471436342429.jpg",@"http://img-ta-01.b0.upaiyun.com/14609471436342429.jpg",nil];
-        
-        
         _myheaderView=[[AOScrollerView alloc]initWithNameArr:_ADUrlArr titleArr:strArr dealUrl:_ADHrefUrlArr height:AdHight];
         //设置委托
         _myheaderView.vDelegate=self;
@@ -681,9 +680,16 @@ UIImage * bundleImageImageName(NSString  *imageName)
     
     UIButton * scanBtn = [[UIButton alloc] initWithFrame:CGRectMake(topSearch.frame.size.width-48, 0, 50, 50)];
     
-    //scanBtn.backgroundColor=[UIColor yellowColor];
+    
     [scanBtn addTarget:self action:@selector(doScan:) forControlEvents:UIControlEventTouchUpInside];
     [topSearch addSubview:scanBtn];
+    
+//    UIButton * seachType = [[UIButton alloc] initWithFrame:CGRectMake(1, 20, 42, 44)];
+//    [seachType setTitle:@"搜商品" forState:UIControlStateNormal];
+//    seachType.titleLabel.font=[UIFont systemFontOfSize:11];
+//    [seachType addTarget:self action:@selector(changeSeachType:) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    [topSearch addSubview:seachType];
     
     
     [self.view addSubview:topSearch];
@@ -708,17 +714,37 @@ UIImage * bundleImageImageName(NSString  *imageName)
     [seachBtn addTarget:self action:@selector(doSeach:) forControlEvents:UIControlEventTouchUpInside];
 }
 
+-(void)changeSeachType:(UIButton *)button{
+    if ([button.titleLabel.text isEqualToString:@"搜商品"]) {
+        [button setTitle:@"搜店铺" forState:UIControlStateNormal];
+        _seachTextF.attributedPlaceholder=[[NSAttributedString alloc]initWithString:@"搜索你喜欢的店铺" attributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
+        _HomeSeachType=1;//搜店铺
+    }
+    else{
+        [button setTitle:@"搜商品" forState:UIControlStateNormal];
+        _seachTextF.attributedPlaceholder=[[NSAttributedString alloc]initWithString:@"搜索你喜欢的商品" attributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
+        _HomeSeachType=0;//
+    }
 
+}
 - (void)doSeach:(UIButton *)button
 {
     if (_seachTextF.text.length>0) {
-        SearchViewController *searchView=[[SearchViewController alloc]init];
-        searchView.hidesBottomBarWhenPushed=YES;
-        searchView.navigationItem.hidesBackButton=YES;
+        if (0==_HomeSeachType) {
+            SearchViewController *searchView=[[SearchViewController alloc]init];
+            searchView.hidesBottomBarWhenPushed=YES;
+            searchView.navigationItem.hidesBackButton=YES;
+            [searchView setSearchToken:_seachTextF.text];
+            [self.navigationController pushViewController:searchView animated:YES];
+        }
+        else{
+            SerachShopViewController *searchView=[[SerachShopViewController alloc]init];
+            searchView.hidesBottomBarWhenPushed=YES;
+            searchView.navigationItem.hidesBackButton=YES;
+            [searchView setSearchToken:_seachTextF.text];
+            [self.navigationController pushViewController:searchView animated:YES];
         
-        [searchView setSearchToken:_seachTextF.text];
-        
-        [self.navigationController pushViewController:searchView animated:YES];
+        }
     }
     
 }
@@ -773,6 +799,8 @@ UIImage * bundleImageImageName(NSString  *imageName)
     NSString *titleStr=@"淘翼夏";
     switch (sendTag) {
         case 10:
+            strurl=@"http://search.114chn.com/";
+            titleStr=@"查号";
             ;
             break;
         case 11:
@@ -792,22 +820,22 @@ UIImage * bundleImageImageName(NSString  *imageName)
             
             break;
         case 14:
-            //strurl=@"http://m.tuniu.com/";
+            strurl=@"http://hotel.qunar.com/";
             titleStr=@"酒店";
             
             break;
         case 15:
-            //strurl=@"http://m.tuniu.com/";
+            strurl=@"http://www.nxsyxh.com/";
             titleStr=@"开锁";
             
             break;
         case 16:
-            //strurl=@"http://m.tuniu.com/";
+            strurl=@"http://wap.eastmoney.com/";
             titleStr=@"股票";
             
             break;
         case 17:
-            //strurl=@"http://m.tuniu.com/";
+            strurl=@"http://flight.qunar.com/";
             titleStr=@"飞机票";
             
             break;
